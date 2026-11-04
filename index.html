@@ -9,8 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --sky: #d9effb;
-      --panel: #e8f5ff;
+      --sky: #dfeefb;
+      --panel: #edf7ff;
       --cyan: #1aa7f9;
       --cyan-dark: #0d85d9;
       --gold: #f0c75d;
@@ -131,7 +131,7 @@
 
     .series-grid {
       display: grid;
-      grid-template-columns: repeat(6, minmax(170px,1fr));
+      grid-template-columns: repeat(6, minmax(170px, 1fr));
       gap: 18px 18px;
       padding-bottom: 24px;
     }
@@ -146,6 +146,8 @@
       box-shadow: 0 5px 0 rgba(128, 117, 34, 0.18);
       transition: transform 0.18s ease, box-shadow 0.18s ease;
       cursor: pointer;
+      text-align: left;
+      padding: 0;
     }
 
     .set-card:hover {
@@ -175,13 +177,8 @@
       transform: skewX(-4deg);
     }
 
-    .set-word.small {
-      font-size: clamp(1rem, 1.4vw, 1.7rem);
-    }
-
     .set-name-box {
       background: rgba(255,255,255,0.9);
-      border-top: 0;
       padding: 14px 12px;
       font-weight: 800;
       font-size: 1.05rem;
@@ -191,12 +188,6 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-    }
-
-    .series-grid .set-card:nth-child(1) .set-word,
-    .series-grid .set-card:nth-child(6) .set-word,
-    .series-grid .set-card:nth-child(10) .set-word {
-      color: #0d3d66;
     }
 
     .view {
@@ -255,6 +246,13 @@
       place-items: center;
       font-size: 3rem;
       color: #5e7a96;
+      overflow: hidden;
+    }
+
+    .poke-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .poke-body {
@@ -289,6 +287,162 @@
       font-size: 0.72rem;
     }
 
+    .admin-open-btn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 9999;
+      border: none;
+      border-radius: 12px;
+      background: #0d8de3;
+      color: white;
+      padding: 12px 16px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(13,141,227,.25);
+    }
+
+    .admin-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+
+    .admin-panel {
+      width: min(900px, 100%);
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.2);
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .admin-header h2 {
+      margin: 0;
+      font-size: clamp(1.6rem, 3vw, 2rem);
+      color: #111827;
+    }
+
+    .admin-close-btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      background: #111827;
+      color: white;
+      cursor: pointer;
+    }
+
+    .admin-login input,
+    .card-form input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #dfeaf2;
+      margin-bottom: 10px;
+      font: inherit;
+    }
+
+    .admin-login button,
+    .card-form button,
+    .card-list button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .admin-login button,
+    .card-form button[type="submit"] {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 10px;
+      background: #0d8de3;
+      color: white;
+      font-weight: 800;
+    }
+
+    .admin-content {
+      display: none;
+    }
+
+    .card-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .card-form-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .logout-btn {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      background: #111827;
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .cards-list {
+      max-height: 300px;
+      overflow: auto;
+      border-top: 1px solid #edf3f8;
+      margin-top: 12px;
+    }
+
+    .card-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #edf3f8;
+    }
+
+    .card-row strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .card-row small {
+      color: #536a75;
+    }
+
+    .card-row-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .edit-btn {
+      padding: 8px 10px;
+      border: none;
+      border-radius: 8px;
+      background: #0d8de3;
+      color: white;
+    }
+
+    .delete-btn {
+      padding: 8px 10px;
+      border: none;
+      border-radius: 8px;
+      background: #ef4444;
+      color: white;
+    }
+
     @media (max-width: 1180px) {
       .series-grid { grid-template-columns: repeat(5, minmax(160px,1fr)); }
     }
@@ -309,6 +463,7 @@
       .set-art { height: 124px; }
       .set-name-box { font-size: 0.9rem; min-height: 62px; }
       .collection-header { align-items: flex-start; flex-direction: column; }
+      .card-form-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -347,100 +502,112 @@
     </section>
   </main>
 
-  <script>
-    const collection = [
-      { name: "Team Rocket's Mewtwo ex", set: "Destined Rivals", code: "DRI EN", number: "231"},
-      { name: "Umbreon ex", set: "Prismatic Evolutions", code: "PRE EN", number: "161"},
-      { name: "Mewtwo & Mew GX", set: "Unified Minds", code: "Unified Minds", number: "71"},
-      { name: "Reshiram ex", set: "White Flare JP", code: "sv11W", number: "174"},
-      { name: "Slowpoke & Psyduck GX", set: "Unified Minds", code: "Unified Minds", number: "218"},
-      { name: "Moltres & Zapdos & Articuno", set: "Hidden Fates", code: "Hidden Fates", number: "69"},
-      { name: "Victini VMAX", set: "Battle Styles", code: "Battle Styles", number: "165"},
-      { name: "Gengar", set: "Lost Origin", code: "Lost Origin", number: "TG06"},
-      { name: "Eevee", set: "Brilliant Stars", code: "Brilliant Stars", number: "TG11"},
-      { name: "Chimchar", set: "DP Black Star Promos", code: "DP Black Star Promos", number: "2"},
-      { name: "Pikachu", set: "Cosmic Eclipse", code: "Cosmic Eclipse", number: "241"},
-      { name: "Zeraora V", set: "Chilling Reign", code: "Chilling Reign", number: "166"},
-      { name: "Lugia V", set: "Silver Tempest", code: "Silver Tempest", number: "138"},
-      { name: "Garbodor", set: "Paradox Rift", code: "PAR EN", number: "204"},
-      { name: "Dragapult ex", set: "Prismatic Evolutions", code: "PRE EN", number: "165"},
-      { name: "Milotic ex", set: "Surging Sparks", code: "SSP EN", number: "237"},
-      { name: "Mega Dragonite ex", set: "Ascended Heroes", code: "ASC EN", number: "295"},
-      { name: "Mega Charizard Y ex", set: "Ascended Heroes", code: "ASC EN", number: "294"},
-      { name: "M Charizard ex", set: "Evolutions", code: "Evolutions", number: "101"},
-      { name: "Pikachu", set: "Lost Origin", code: "Lost Origin", number: "TG05"},
-      { name: "Mega Greninja ex", set: "Chaos Rising", code: "CRI EN", number: "116" }
-    ];
+  <button id="adminOpenBtn" class="admin-open-btn">Admin</button>
 
+  <div id="adminModal" class="admin-modal">
+    <div class="admin-panel">
+      <div class="admin-header">
+        <h2>Admin paneel</h2>
+        <button id="adminCloseBtn" class="admin-close-btn" type="button">Sluiten</button>
+      </div>
+
+      <div id="adminLoginWrap" class="admin-login">
+        <input id="adminEmail" type="email" placeholder="E-mail" />
+        <input id="adminPassword" type="password" placeholder="Wachtwoord" />
+        <button id="loginBtn" type="button">Inloggen</button>
+      </div>
+
+      <div id="adminPanel" class="admin-content">
+        <form id="cardForm" class="card-form">
+          <div class="card-form-grid">
+            <input name="name" placeholder="Kaartnaam" required />
+            <input name="set_name" placeholder="Reeks" required />
+            <input name="number" placeholder="Nummer" required />
+            <input name="rarity" placeholder="Rarity" value="Rare" />
+            <input name="type" placeholder="Type" value="Electric" />
+            <input name="condition" placeholder="Conditie" value="Mint" />
+            <input name="price" type="number" step="0.01" placeholder="Prijs" value="24.9" />
+            <input name="image" placeholder="Afbeeldingslink" />
+          </div>
+
+          <div class="card-form-actions">
+            <button type="submit">Opslaan</button>
+            <button type="button" id="logoutBtn" class="logout-btn">Uitloggen</button>
+          </div>
+        </form>
+
+        <h3 style="margin:20px 0 12px;">Bestaande kaarten</h3>
+        <div id="cardsList" class="cards-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://zshiboydolzozgoivyui.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaGlib3lkb2x6b3pnb2l2eXVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4MjA5NzksImV4cCI6MjEwOTM5Njk3OX0.0fSYlmLLM_E6wuQS3Vu6gI4IOji-7mY0EAapkKT-bEg";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let cards = [];
     const seriesGrid = document.getElementById('seriesGrid');
     const collectionView = document.getElementById('collectionView');
     const seriesView = document.getElementById('seriesView');
     const collectionTitle = document.getElementById('collectionTitle');
     const collectionGrid = document.getElementById('collectionGrid');
-    const searchInput = document.getElementById('searchInput');
     const backBtn = document.getElementById('backBtn');
+    const searchInput = document.getElementById('searchInput');
+    const cardForm = document.getElementById('cardForm');
+    const cardsList = document.getElementById('cardsList');
 
-    function formatSetName(name) {
-      return name === 'DP Black Star Promos' ? 'DP Black Star Promos' : name;
-    }
-
-    function getSeriesData() {
-      return Array.from(new Map(
-        collection.map(card => [card.set, card])
-      ).keys()).map(setName => ({
-        name: setName,
-        cards: collection.filter(card => card.set === setName)
-      }));
-    }
-
-    function getWordmarkLabel(name) {
-      if (name === '30th Celebration') return '30th Celebration';
-      if (name === 'DP Black Star Promos') return 'Mega Evolution Promos';
-      if (name === 'Lost Origin') return 'Lost Origin';
-      if (name === 'Chaos Rising') return 'Chaos Rising';
-      if (name === 'Ascended Heroes') return 'Ascended Heroes';
-      if (name === 'Prismatic Evolutions') return 'Prismatic Evolutions';
-      return name;
-    }
-
-    function renderSeries(query='') {
+    function renderSeries(query = '') {
       const clean = query.toLowerCase().trim();
-      const items = getSeriesData().filter(series => {
-        if (!clean) return true;
-        return series.name.toLowerCase().includes(clean)
-          || series.cards.some(card => card.name.toLowerCase().includes(clean));
+      const grouped = new Map();
+
+      cards.forEach((card) => {
+        const setName = (card.set_name || '').trim();
+        if (!setName) return;
+
+        const matches = !clean ||
+          setName.toLowerCase().includes(clean) ||
+          (card.name || '').toLowerCase().includes(clean) ||
+          (card.number || '').toLowerCase().includes(clean);
+
+        if (matches) {
+          if (!grouped.has(setName)) grouped.set(setName, []);
+          grouped.get(setName).push(card);
+        }
       });
 
-      seriesGrid.innerHTML = items.map(series => {
-        const label = getWordmarkLabel(series.name);
-        return `
-          <button class="set-card" type="button" data-series="${encodeURIComponent(series.name)}">
-            <div class="set-art">
-              <div class="set-word ${series.name === 'DP Black Star Promos' ? 'small' : ''}">${label}</div>
-            </div>
-            <div class="set-name-box">${series.name}</div>
-          </button>
-        `;
-      }).join('');
+      const entries = Array.from(grouped.entries());
+      seriesGrid.innerHTML = entries.map(([setName]) => `
+        <button class="set-card" type="button" data-series="${encodeURIComponent(setName)}">
+          <div class="set-art">
+            <div class="set-word">${setName}</div>
+          </div>
+          <div class="set-name-box">${setName}</div>
+        </button>
+      `).join('');
 
-      seriesGrid.querySelectorAll('.set-card').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const name = decodeURIComponent(btn.dataset.series);
+      seriesGrid.querySelectorAll('.set-card').forEach((button) => {
+        button.addEventListener('click', () => {
+          const name = decodeURIComponent(button.dataset.series);
           showCollection(name);
         });
       });
     }
 
     function showCollection(name) {
-      const seriesCards = collection.filter(card => card.set === name);
+      const items = cards.filter((card) => (card.set_name || '') === name);
       collectionTitle.textContent = name;
-      collectionGrid.innerHTML = seriesCards.map(card => `
+      collectionGrid.innerHTML = items.map((card) => `
         <article class="poke-card">
-          <div class="poke-img">✦</div>
+          <div class="poke-img">
+            ${card.image ? `<img src="${card.image}" alt="${card.name}" />` : '✦'}
+          </div>
           <div class="poke-body">
             <div class="poke-name">${card.name}</div>
             <div class="poke-meta">
-              <span>${card.set}</span>
+              <span>${card.set_name}</span>
               <span class="badge">#${card.number}</span>
             </div>
           </div>
@@ -451,39 +618,189 @@
       collectionView.classList.add('open');
     }
 
+    async function loadCards() {
+      const { data, error } = await supabase
+        .from('cards')
+        .select('*')
+        .order('id', { ascending: false });
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      cards = data || [];
+      renderSeries();
+
+      if (collectionView.classList.contains('open')) {
+        const current = collectionTitle.textContent.trim();
+        if (current) showCollection(current);
+      }
+    }
+
+    function renderAdminList() {
+      cardsList.innerHTML = cards.map((card) => `
+        <div class="card-row">
+          <div>
+            <strong>${card.name}</strong>
+            <small>${card.set_name} • #${card.number}</small>
+          </div>
+          <div class="card-row-buttons">
+            <button type="button" class="edit-btn" data-edit="${card.id}">Bewerk</button>
+            <button type="button" class="delete-btn" data-delete="${card.id}">Verwijder</button>
+          </div>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('[data-edit]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const card = cards.find((item) => item.id === Number(button.dataset.edit));
+          if (!card) return;
+
+          cardForm.name.value = card.name || '';
+          cardForm.set_name.value = card.set_name || '';
+          cardForm.number.value = card.number || '';
+          cardForm.rarity.value = card.rarity || 'Rare';
+          cardForm.type.value = card.type || 'Electric';
+          cardForm.condition.value = card.condition || 'Mint';
+          cardForm.price.value = card.price || 0;
+          cardForm.image.value = card.image || '';
+          cardForm.dataset.editId = card.id;
+        });
+      });
+
+      document.querySelectorAll('[data-delete]').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const ok = confirm('Weet je zeker dat je deze kaart wil verwijderen?');
+          if (!ok) return;
+
+          const { error } = await supabase
+            .from('cards')
+            .delete()
+            .eq('id', Number(button.dataset.delete));
+
+          if (error) {
+            console.error(error);
+            alert('Verwijderen mislukt');
+            return;
+          }
+
+          await loadCards();
+        });
+      });
+    }
+
+    async function saveCard(event) {
+      event.preventDefault();
+
+      const payload = {
+        name: cardForm.name.value.trim(),
+        set_name: cardForm.set_name.value.trim(),
+        number: cardForm.number.value.trim(),
+        rarity: cardForm.rarity.value.trim() || 'Rare',
+        type: cardForm.type.value.trim() || 'Unknown',
+        condition: cardForm.condition.value.trim() || 'Mint',
+        price: Number(cardForm.price.value || 0),
+        image: cardForm.image.value.trim() || '',
+        tag: (cardForm.rarity.value.trim() || 'rare').toLowerCase()
+      };
+
+      if (!payload.name || !payload.set_name || !payload.number) {
+        alert('Vul minimaal naam, reeks en nummer in.');
+        return;
+      }
+
+      const editId = cardForm.dataset.editId;
+      let result;
+
+      if (editId) {
+        result = await supabase
+          .from('cards')
+          .update(payload)
+          .eq('id', Number(editId));
+      } else {
+        result = await supabase
+          .from('cards')
+          .insert([payload]);
+      }
+
+      if (result.error) {
+        console.error(result.error);
+        alert('Opslaan mislukt');
+        return;
+      }
+
+      cardForm.reset();
+      delete cardForm.dataset.editId;
+      await loadCards();
+      renderAdminList();
+    }
+
+    async function loginAdmin() {
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value.trim();
+
+      if (!email || !password) {
+        alert('Vul e-mail en wachtwoord in.');
+        return;
+      }
+
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        alert('Onjuiste inloggegevens');
+        return;
+      }
+
+      document.getElementById('adminLoginWrap').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+      await loadCards();
+      renderAdminList();
+    }
+
+    async function logoutAdmin() {
+      const { error } = await supabase.auth.signOut();
+      if (!error) {
+        document.getElementById('adminLoginWrap').style.display = 'block';
+        document.getElementById('adminPanel').style.display = 'none';
+        document.getElementById('adminPassword').value = '';
+      }
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', loginAdmin);
+    document.getElementById('logoutBtn').addEventListener('click', logoutAdmin);
+    document.getElementById('cardForm').addEventListener('submit', saveCard);
+    document.getElementById('adminOpenBtn').addEventListener('click', () => {
+      document.getElementById('adminModal').style.display = 'flex';
+    });
+    document.getElementById('adminCloseBtn').addEventListener('click', () => {
+      document.getElementById('adminModal').style.display = 'none';
+    });
+
     backBtn.addEventListener('click', () => {
       collectionView.classList.remove('open');
       seriesView.classList.add('open');
     });
 
-    searchInput.addEventListener('input', (e) => {
-      const q = e.target.value.trim();
-      if (collectionView.classList.contains('open')) {
-        const visible = document.getElementById('collectionTitle').textContent;
-        const list = collection.filter(card => card.set === visible && (
-          !q || card.name.toLowerCase().includes(q.toLowerCase()) || card.number.includes(q)
-        ));
-
-        collectionGrid.innerHTML = list.map(card => `
-          <article class="poke-card">
-            <div class="poke-img">✦</div>
-            <div class="poke-body">
-              <div class="poke-name">${card.name}</div>
-              <div class="poke-meta">
-                <span>${card.set}</span>
-                <span class="badge">#${card.number}</span>
-              </div>
-            </div>
-          </article>
-        `).join('');
-        return;
-      }
-
-      renderSeries(q);
+    searchInput.addEventListener('input', (event) => {
+      renderSeries(event.target.value);
     });
 
-    renderSeries();
+    supabase.auth.onAuthStateChange((event, session) => {
+      const loginWrap = document.getElementById('adminLoginWrap');
+      const adminPanel = document.getElementById('adminPanel');
+
+      if (session) {
+        loginWrap.style.display = 'none';
+        adminPanel.style.display = 'block';
+        renderAdminList();
+      } else {
+        loginWrap.style.display = 'block';
+        adminPanel.style.display = 'none';
+      }
+    });
+
+    loadCards();
   </script>
 </body>
 </html>
-
