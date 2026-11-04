@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TestBrightbird | Pokémon Kaarten</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --panel: #ffffff;
+        --panel-2: #eef5ff;
+        --primary: #2563eb;
+        --primary-2: #1d4ed8;
+        --accent: #facc15;
+        --text: #0f172a;
+        --muted: #64748b;
+        --border: #dbe6f3;
+        --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        --card-radius: 18px;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 25%),
+          linear-gradient(180deg, #f9fbff 0%, #eef4ff 100%);
+        color: var(--text);
+      }
+
+      a { text-decoration: none; color: inherit; }
+
+      img { display: block; max-width: 100%; }
+
+      .container {
+        width: min(1200px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid rgba(219, 230, 243, 0.9);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px 0;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        font-size: 20px;
+        background: linear-gradient(135deg, #facc15, #f59e0b);
+        box-shadow: 0 10px 20px rgba(245, 158, 11, 0.28);
+      }
+
+      .brand-name {
+        font-size: 1.2rem;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .nav-links a:hover { color: var(--text); }
+
+      .nav-cta {
+        padding: 11px 18px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 10px 18px rgba(37, 99, 235, 0.25);
+      }
+
+      .hero {
+        padding: 52px 0 32px;
+      }
+
+      .hero-inner {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 28px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(37, 99, 235, 0.08);
+        border: 1px solid rgba(37, 99, 235, 0.12);
+        color: var(--primary-2);
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 18px 0 18px;
+        font-size: clamp(2.5rem, 4vw, 4.3rem);
+        line-height: 0.95;
+        letter-spacing: -0.06em;
+      }
+
+      .hero-copy p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.08rem;
+        line-height: 1.7;
+        max-width: 560px;
+      }
+
+      .hero-actions {
+        margin-top: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+
+      .btn {
+        border: none;
+        border-radius: 14px;
+        padding: 14px 20px;
+        font-weight: 800;
+        font-size: 0.98rem;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .btn:hover { transform: translateY(-1px); }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: #fff;
+        box-shadow: 0 12px 18px rgba(37, 99, 235, 0.25);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .hero-card {
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(219, 230, 243, 0.9);
+        border-radius: 28px;
+        padding: 18px;
+        box-shadow: var(--shadow);
+      }
+
+      .card-showcase {
+        background: linear-gradient(160deg, #dfeeff 0%, #f7fbff 100%);
+        border: 1px solid rgba(148, 163, 184, 0.28);
+        border-radius: 22px;
+        padding: 18px;
+      }
+
+      .showcase-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .tiny-pill {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--primary-2);
+        background: rgba(37, 99, 235, 0.08);
+        border: 1px solid rgba(37, 99, 235, 0.12);
+        border-radius: 999px;
+        padding: 6px 10px;
+      }
+
+      .showcase-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .mini-card {
+        position: relative;
+        background: white;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        box-shadow: 0 12px 20px rgba(15, 23, 42, 0.04);
+      }
+
+      .mini-card img {
+        width: 100%;
+        aspect-ratio: 1 / 1.3;
+        object-fit: cover;
+      }
+
+      .mini-meta {
+        padding: 10px 12px 12px;
+      }
+
+      .mini-name {
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      .mini-price {
+        margin-top: 6px;
+        color: var(--primary-2);
+        font-size: 0.8rem;
+        font-weight: 800;
+      }
+
+      .search-area {
+        padding: 10px 0 18px;
+      }
+
+      .search-box {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 12px 16px;
+        box-shadow: 0 10px 18px rgba(15, 23, 42, 0.04);
+      }
+
+      .search-box input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        background: transparent;
+        color: var(--text);
+      }
+
+      .catalog {
+        padding: 8px 0 80px;
+      }
+
+      .catalog-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+
+      .catalog-head h2 {
+        margin: 0;
+        font-size: clamp(1.8rem, 2.5vw, 2.6rem);
+        letter-spacing: -0.05em;
+      }
+
+      .filter-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .filter-chip {
+        background: white;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 9px 12px;
+        cursor: pointer;
+      }
+
+      .filter-chip.active {
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: white;
+        border-color: transparent;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid var(--border);
+        border-radius: var(--card-radius);
+        overflow: hidden;
+        box-shadow: 0 16px 30px rgba(15, 23, 42, 0.04);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 28px rgba(15, 23, 42, 0.08);
+      }
+
+      .card-media {
+        position: relative;
+        background: linear-gradient(180deg, #eff6ff 0%, #f8fbff 100%);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .card-media img {
+        aspect-ratio: 4 / 5.4;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      .card-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: rgba(250, 204, 21, 0.96);
+        color: #1f2937;
+        font-size: 0.72rem;
+        font-weight: 800;
+        border-radius: 999px;
+        padding: 7px 10px;
+      }
+
+      .card-body {
+        padding: 14px 14px 16px;
+      }
+
+      .card-set {
+        color: var(--muted);
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+
+      .card-name {
+        margin-top: 8px;
+        font-size: 1.05rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+      }
+
+      .card-meta {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .card-number {
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      .card-price {
+        font-size: 1.1rem;
+        font-weight: 900;
+        color: var(--primary-2);
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.55);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        z-index: 50;
+      }
+
+      .modal.open { display: flex; }
+
+      .modal-content {
+        width: min(880px, 100%);
+        background: white;
+        border-radius: 28px;
+        overflow: hidden;
+        border: 1px solid rgba(219, 230, 243, 0.9);
+        box-shadow: 0 28px 46px rgba(15, 23, 42, 0.2);
+      }
+
+      .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 20px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .modal-header h3 {
+        margin: 0;
+        font-size: 1.4rem;
+        letter-spacing: -0.04em;
+      }
+
+      .close-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        border: none;
+        background: #f1f5f9;
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+
+      .modal-body {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+      }
+
+      .modal-image {
+        padding: 20px;
+        background: linear-gradient(180deg, #f2f7ff 0%, #eef4ff 100%);
+        border-right: 1px solid var(--border);
+      }
+
+      .modal-image img {
+        width: 100%;
+        aspect-ratio: 4 / 5.5;
+        object-fit: cover;
+        border-radius: 18px;
+        box-shadow: 0 18px 30px rgba(37, 99, 235, 0.09);
+      }
+
+      .modal-info {
+        padding: 26px 24px 24px;
+      }
+
+      .modal-set {
+        color: var(--primary-2);
+        font-size: 0.8rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .modal-name {
+        margin-top: 10px;
+        font-size: clamp(1.9rem, 2.3vw, 2.6rem);
+        line-height: 1.05;
+        letter-spacing: -0.05em;
+      }
+
+      .modal-price {
+        margin-top: 16px;
+        font-size: clamp(1.8rem, 2vw, 2.3rem);
+        font-weight: 900;
+        color: var(--primary-2);
+      }
+
+      .specs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .spec {
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 12px 14px;
+      }
+
+      .spec-label {
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .spec-value {
+        margin-top: 4px;
+        font-size: 1rem;
+        font-weight: 800;
+      }
+
+      .modal-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(16, 185, 129, 0.1);
+        color: #047857;
+        border: 1px solid rgba(16, 185, 129, 0.22);
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-weight: 700;
+        margin-top: 16px;
+      }
+
+      .status::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #10b981;
+        display: inline-block;
+      }
+
+      @media (max-width: 860px) {
+        .hero-inner,
+        .modal-body {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-links {
+          display: none;
+        }
+      }
+
+      @media (max-width: 540px) {
+        .catalog-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .specs {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="brand-mark">⚡</div>
+          <div class="brand-name">TestBrightbird</div>
+        </div>
+
+        <nav class="nav-links" aria-label="Hoofdnavigatie">
+          <a href="#catalog">Catalogus</a>
+          <a href="#collectie">Collectie</a>
+          <a href="#verlanglijst">Verlanglijst</a>
+        </nav>
+
+        <button class="nav-cta">Bekijk collectie</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <div class="eyebrow">🔥 Nieuwste Pokémon-kaarten</div>
+            <h1>Ontdek je volgende zeldzame kaart.</h1>
+            <p>
+              Verken een premium collectie van Pokémon-kaarten met snelle filters,
+              heldere prijzen en een premium catalogus design net als de pagina die je wilde nabootsen.
+            </p>
+
+            <div class="hero-actions">
+              <button class="btn btn-primary">Start je collectie</button>
+              <button class="btn btn-secondary">Bekijk aanbiedingen</button>
+            </div>
+          </div>
+
+          <div class="hero-card">
+            <div class="card-showcase">
+              <div class="showcase-top">
+                <div class="tiny-pill">Trending</div>
+                <div class="tiny-pill">Vandaag</div>
+              </div>
+
+              <div class="showcase-grid">
+                <div class="mini-card">
+                  <img src="https://images.pokemontcg.io/swsh4/69.png" alt="Pikachu" />
+                  <div class="mini-meta">
+                    <div class="mini-name">Pikachu</div>
+                    <div class="mini-price">€ 24,90</div>
+                  </div>
+                </div>
+
+                <div class="mini-card">
+                  <img src="https://images.pokemontcg.io/swsh5/16.png" alt="Charizard" />
+                  <div class="mini-meta">
+                    <div class="mini-name">Charizard</div>
+                    <div class="mini-price">€ 42,50</div>
+                  </div>
+                </div>
+
+                <div class="mini-card">
+                  <img src="https://images.pokemontcg.io/swsh9/32.png" alt="Mew" />
+                  <div class="mini-meta">
+                    <div class="mini-name">Mew</div>
+                    <div class="mini-price">€ 18,20</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="search-area">
+        <div class="container">
+          <div class="search-box">
+            <span aria-hidden="true">🔎</span>
+            <input id="searchInput" type="text" placeholder="Zoek op kaartnaam, set of nummer..." />
+          </div>
+        </div>
+      </section>
+
+      <section id="catalog" class="catalog">
+        <div class="container">
+          <div class="catalog-head">
+            <h2>Catalogus</h2>
+            <div class="filter-row" aria-label="Filters">
+              <button class="filter-chip active" data-filter="all">Alles</button>
+              <button class="filter-chip" data-filter="legendary">Legendary</button>
+              <button class="filter-chip" data-filter="rare">Rare</button>
+              <button class="filter-chip" data-filter="promo">Promo</button>
+            </div>
+          </div>
+
+          <div id="cardGrid" class="card-grid" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <div id="cardModal" class="modal" aria-hidden="true">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Kaart details</h3>
+          <button class="close-btn" aria-label="Sluiten">✕</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="modal-image">
+            <img id="modalImage" src="" alt="Kaart afbeelding" />
+          </div>
+
+          <div class="modal-info">
+            <div id="modalSet" class="modal-set"></div>
+            <div id="modalName" class="modal-name"></div>
+            <div id="modalPrice" class="modal-price"></div>
+
+            <div class="status">Beschikbaar in voorraad</div>
+
+            <div class="specs">
+              <div class="spec">
+                <div class="spec-label">Nummer</div>
+                <div id="modalNumber" class="spec-value"></div>
+              </div>
+              <div class="spec">
+                <div class="spec-label">Type</div>
+                <div id="modalType" class="spec-value"></div>
+              </div>
+              <div class="spec">
+                <div class="spec-label">Rarity</div>
+                <div id="modalRarity" class="spec-value"></div>
+              </div>
+              <div class="spec">
+                <div class="spec-label">Conditie</div>
+                <div id="modalCondition" class="spec-value"></div>
+              </div>
+            </div>
+
+            <div class="modal-actions">
+              <button class="btn btn-primary">In mandje</button>
+              <button class="btn btn-secondary">Toevoegen aan wishlist</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const cards = [
+        {
+          id: 1,
+          name: 'Pikachu VMAX',
+          set: 'Sword & Shield',
+          number: 'SV94',
+          price: 24.9,
+          rarity: 'Rare',
+          type: 'Electric',
+          condition: 'Near Mint',
+          image: 'https://images.pokemontcg.io/swsh4/69.png',
+          tag: 'rare'
+        },
+        {
+          id: 2,
+          name: 'Charizard ex',
+          set: 'Scarlet & Violet',
+          number: '076',
+          price: 42.5,
+          rarity: 'Legendary',
+          type: 'Fire',
+          condition: 'Mint',
+          image: 'https://images.pokemontcg.io/swsh5/16.png',
+          tag: 'legendary'
+        },
+        {
+          id: 3,
+          name: 'Mew',
+          set: 'Astral Radiance',
+          number: '118',
+          price: 18.2,
+          rarity: 'Promo',
+          type: 'Psychic',
+          condition: 'Excellent',
+          image: 'https://images.pokemontcg.io/swsh9/32.png',
+          tag: 'promo'
+        },
+        {
+          id: 4,
+          name: 'Umbreon V',
+          set: 'Evolving Skies',
+          number: '017',
+          price: 31.4,
+          rarity: 'Rare',
+          type: 'Dark',
+          condition: 'Near Mint',
+          image: 'https://images.pokemontcg.io/swsh12/17.png',
+          tag: 'rare'
+        },
+        {
+          id: 5,
+          name: 'Gyarados ex',
+          set: 'Paldea Evolved',
+          number: '193',
+          price: 27.8,
+          rarity: 'Rare',
+          type: 'Water',
+          condition: 'Mint',
+          image: 'https://images.pokemontcg.io/sv3/193.png',
+          tag: 'rare'
+        },
+        {
+          id: 6,
+          name: 'Rayquaza',
+          set: 'Lost Origin',
+          number: '031',
+          price: 58.9,
+          rarity: 'Legendary',
+          type: 'Dragon',
+          condition: 'Mint',
+          image: 'https://images.pokemontcg.io/sv3/31.png',
+          tag: 'legendary'
+        }
+      ];
+
+      const grid = document.getElementById('cardGrid');
+      const searchInput = document.getElementById('searchInput');
+      const modal = document.getElementById('cardModal');
+      const closeBtn = document.querySelector('.close-btn');
+      const chips = document.querySelectorAll('.filter-chip');
+
+      let activeFilter = 'all';
+
+      function formatPrice(value) {
+        return `€ ${value.toFixed(2).replace('.', ',')}`;
+      }
+
+      function renderCards() {
+        const value = searchInput.value.trim().toLowerCase();
+
+        const filteredCards = cards.filter((card) => {
+          const matchesText =
+            card.name.toLowerCase().includes(value) ||
+            card.set.toLowerCase().includes(value) ||
+            card.number.toLowerCase().includes(value);
+
+          const matchesFilter =
+            activeFilter === 'all' || card.tag === activeFilter;
+
+          return matchesText && matchesFilter;
+        });
+
+        grid.innerHTML = filteredCards.map((card) => `
+          <article class="card" data-id="${card.id}">
+            <div class="card-media">
+              <span class="card-badge">${card.rarity}</span>
+              <img src="${card.image}" alt="${card.name}" />
+            </div>
+            <div class="card-body">
+              <div class="card-set">${card.set}</div>
+              <div class="card-name">${card.name}</div>
+              <div class="card-meta">
+                <span class="card-number">#${card.number}</span>
+                <span class="card-price">${formatPrice(card.price)}</span>
+              </div>
+            </div>
+          </article>
+        `).join('');
+
+        document.querySelectorAll('.card').forEach((cardEl) => {
+          cardEl.addEventListener('click', () => {
+            const id = Number(cardEl.dataset.id);
+            const card = cards.find((item) => item.id === id);
+            if (!card) return;
+
+            document.getElementById('modalImage').src = card.image;
+            document.getElementById('modalImage').alt = card.name;
+            document.getElementById('modalSet').textContent = card.set;
+            document.getElementById('modalName').textContent = card.name;
+            document.getElementById('modalPrice').textContent = formatPrice(card.price);
+            document.getElementById('modalNumber').textContent = card.number;
+            document.getElementById('modalType').textContent = card.type;
+            document.getElementById('modalRarity').textContent = card.rarity;
+            document.getElementById('modalCondition').textContent = card.condition;
+
+            modal.classList.add('open');
+            modal.setAttribute('aria-hidden', 'false');
+          });
+        });
+      }
+
+      searchInput.addEventListener('input', renderCards);
+
+      chips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          activeFilter = chip.dataset.filter;
+          chips.forEach((item) => item.classList.toggle('active', item === chip));
+          renderCards();
+        });
+      });
+
+      closeBtn.addEventListener('click', () => {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+      });
+
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          modal.classList.remove('open');
+          modal.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      renderCards();
+    </script>
+  </body>
+</html>
