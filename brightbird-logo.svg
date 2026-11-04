@@ -1,24 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title desc">
-  <title id="title">Bright Bird Cardshop</title>
-  <desc id="desc">Een gestileerde witte vogel boven drie verzamelkaarten in een zwart-gouden embleem.</desc>
+  <title id="title">Bright Bird</title>
+  <desc id="desc">A stylized bird emblem for Bright Bird Cardshop</desc>
   <defs>
-    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0ad"/><stop offset=".48" stop-color="#d5a840"/><stop offset="1" stop-color="#fff0ad"/></linearGradient>
-    <linearGradient id="feather" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset=".6" stop-color="#dce4e7"/><stop offset="1" stop-color="#7e898e"/></linearGradient>
+    <linearGradient id="gold" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff2b5"/>
+      <stop offset="0.45" stop-color="#d9a74a"/>
+      <stop offset="1" stop-color="#fff2b5"/>
+    </linearGradient>
+    <linearGradient id="whiteFeather" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.6" stop-color="#dfe8ee"/>
+      <stop offset="1" stop-color="#7e8a92"/>
+    </linearGradient>
   </defs>
-  <circle cx="120" cy="120" r="111" fill="#090a0d" stroke="url(#gold)" stroke-width="6"/>
-  <circle cx="120" cy="120" r="100" fill="none" stroke="#6e5425" stroke-width="1.5"/>
-  <path d="M120 18 132 48 120 40 108 48Z" fill="url(#gold)" stroke="#fff0bd" stroke-width="1"/>
-  <path d="M120 43c-23 0-40 24-43 50l-25-31 13 54c5 24 24 37 55 38 31-1 50-14 55-38l13-54-25 31c-3-26-20-50-43-50Z" fill="url(#feather)" stroke="#16191d" stroke-width="4"/>
-  <path d="M84 91 61 74l18 37m77-20 23-17-18 37M99 74l-13-19m55 19 13-19" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
-  <path d="m120 73 18 25-18 34-18-34Z" fill="#12171a" stroke="url(#gold)" stroke-width="2"/>
-  <circle cx="108" cy="94" r="3" fill="#f2c55c"/><circle cx="132" cy="94" r="3" fill="#f2c55c"/>
+  <circle cx="120" cy="120" r="111" fill="#090b0d" stroke="url(#gold)" stroke-width="6"/>
+  <circle cx="120" cy="120" r="100" fill="none" stroke="#6b5527" stroke-width="1.5"/>
+  <path d="M120 16L132 48L120 39L108 48Z" fill="url(#gold)"/>
+  <path d="M120 43c-23 0-39 24-43 50l-25-31 14 55c5 24 24 37 54 38 30-1 49-14 54-38l14-55-25 31c-3-26-20-50-43-50Z" fill="url(#whiteFeather)" stroke="#191d20" stroke-width="4"/>
+  <path d="M84 90L63 74l18 38M156 90l21-16-18 38M100 72l-13-18M140 72l13-18" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+  <path d="m120 71 18 26-18 35-18-35Z" fill="#111517" stroke="url(#gold)" stroke-width="2"/>
+  <circle cx="109" cy="95" r="3.4" fill="#f6c75c"/>
+  <circle cx="131" cy="95" r="3.4" fill="#f6c75c"/>
   <g stroke="url(#gold)" stroke-width="3" stroke-linejoin="round">
-    <rect x="65" y="126" width="40" height="58" rx="4" transform="rotate(-13 65 126)" fill="#451e13"/>
-    <rect x="101" y="120" width="41" height="64" rx="4" fill="#17426c"/>
-    <rect x="137" y="126" width="40" height="58" rx="4" transform="rotate(13 137 126)" fill="#241c39"/>
+    <rect x="65" y="126" width="40" height="58" rx="4" transform="rotate(-13 65 126)" fill="#4b2219"/>
+    <rect x="101" y="120" width="41" height="64" rx="4" fill="#16456d"/>
+    <rect x="137" y="126" width="40" height="58" rx="4" transform="rotate(13 137 126)" fill="#211d31"/>
   </g>
-  <circle cx="121" cy="151" r="12" fill="#111820" stroke="#e9bb54" stroke-width="3"/><circle cx="121" cy="151" r="4" fill="#f8e6ab"/>
-  <path d="M24 176 120 161l96 15-15 38H39Z" fill="#08090c" stroke="url(#gold)" stroke-width="4"/>
-  <text x="120" y="195" fill="#fff" stroke="#171717" stroke-width="1" paint-order="stroke" text-anchor="middle" font-family="Georgia,serif" font-weight="900" font-size="19" letter-spacing="1">BRIGHT BIRD</text>
-  <text x="120" y="216" fill="url(#gold)" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="11" letter-spacing="4">CARD SHOP</text>
+  <circle cx="121" cy="151" r="12" fill="#111820" stroke="#e7b95a" stroke-width="3"/>
+  <circle cx="121" cy="151" r="4" fill="#f7e7b8"/>
+  <path d="M25 176L120 160L215 176L199 216H41Z" fill="#090a0d" stroke="url(#gold)" stroke-width="4"/>
+  <text x="120" y="192" fill="#ffffff" stroke="#171717" stroke-width="1" paint-order="stroke" text-anchor="middle" font-family="Georgia,serif" font-weight="900" font-size="18" letter-spacing="1">BRIGHT BIRD</text>
+  <text x="120" y="214" fill="url(#gold)" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="11" letter-spacing="4">CARD SHOP</text>
 </svg>

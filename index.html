@@ -1,89 +1,489 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#eaf6ff">
-  <meta name="description" content="Bekijk de Pokémon-kaartencollectie van Bright Bird Cardshop, overzichtelijk per reeks.">
-  <title>Bright Bird Cardshop — Pokémon collectie</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bright Bird Cardshop</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--ink:#131d22;--blue:#178be5;--deep:#0868ba;--yellow:#ffd500;--sky:#eaf7ff;--line:#c8dce8;--muted:#60717a;--white:#fff;--shadow:0 12px 25px #18394a25}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:Inter,Arial,sans-serif;background:radial-gradient(ellipse at 90% 0%,#d1ebfa 0 170px,transparent 172px),radial-gradient(ellipse at 4% 55%,#d9f0fd 0 180px,transparent 182px),var(--sky)}
-    button,input{font:inherit}button{cursor:pointer}.wrap{width:min(1440px,calc(100% - 48px));margin:auto}
-    .topbar{position:sticky;top:0;z-index:5;background:#f7fcffe8;backdrop-filter:blur(12px);border-bottom:1px solid #d5e8f2}.nav{min-height:84px;display:flex;align-items:center;gap:22px}.brand{display:flex;align-items:center;gap:12px;margin-right:auto}.brand img{width:63px;height:63px;object-fit:contain}.brand-name{font:800 21px 'Baloo 2',sans-serif;line-height:1}.brand-name small{display:block;color:#9b7621;font:700 10px Inter,sans-serif;letter-spacing:.25em;margin-top:5px}.nav a{font-weight:700;color:#52636e;text-decoration:none}.search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 13px;width:min(330px,38vw)}.search input{width:100%;border:0;outline:0;background:transparent}.hero{padding:34px 0 21px}.hero h1{font:800 clamp(27px,4vw,48px)/1.05 'Baloo 2',sans-serif;margin:0 0 6px;letter-spacing:-.03em}.hero p{margin:0;color:var(--muted);font-size:15px}.season{margin:24px 0 18px;padding:13px 20px;border-radius:16px;background:linear-gradient(100deg,#1685e3,#57b4ed);color:#fff;font:800 clamp(19px,2.4vw,30px) 'Baloo 2',sans-serif;box-shadow:0 6px 0 #829ba8;}
-    .set-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:26px 30px;padding:5px 0 45px}.set-card{padding:0;text-align:left;border:2px solid transparent;border-radius:28px;background:linear-gradient(135deg,#ffd400,#279de8) border-box;box-shadow:0 7px 0 #829ba8,0 15px 26px #1e496222;overflow:hidden;transition:transform .18s,box-shadow .18s}.set-card:hover,.set-card:focus-visible{transform:translateY(-4px);box-shadow:0 9px 0 #829ba8,0 21px 30px #1e496233;outline:none}.set-art{height:210px;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#c8edff,#fffbd4);border-bottom:4px solid #ffe875}.set-wordmark{max-width:100%;text-align:center;font:800 clamp(22px,2.7vw,34px)/.95 'Baloo 2',sans-serif;text-transform:uppercase;letter-spacing:-.04em;color:#10334a;text-shadow:2px 3px #fff,3px 5px #81b5d1;transform:rotate(-2deg)}.set-wordmark small{display:block;font:800 12px Inter,sans-serif;letter-spacing:.15em;margin-bottom:8px;color:#0b6aa9;text-shadow:none}.set-wordmark.promo:after{content:'★ PROMOS';display:block;color:#e14524;font-size:17px;margin-top:5px;text-shadow:1px 2px #ffd85b}.set-wordmark.logo-30{font-size:72px;color:#ffcf00;-webkit-text-stroke:3px #171717;text-shadow:4px 5px #ed263a}.set-info{height:105px;background:white;padding:22px 24px;display:flex;align-items:flex-start;justify-content:space-between;gap:8px}.set-name{font:800 25px 'Baloo 2',sans-serif;line-height:1.04}.set-count{white-space:nowrap;margin-top:5px;font-size:12px;font-weight:800;color:#39718e;background:#e8f6ff;padding:6px 9px;border-radius:20px}
-    .collection-view{display:none;padding:10px 0 70px}.collection-view.open{display:block}.back{border:0;background:#fff;border-radius:12px;padding:10px 15px;font-weight:800;color:#126bb1;box-shadow:0 3px 10px #18394a12}.collection-heading{margin:22px 0 18px;display:flex;align-items:center;gap:16px}.collection-heading h2{margin:0;font:800 35px 'Baloo 2',sans-serif}.collection-heading p{margin:2px 0 0;color:var(--muted)}.pokemon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}.pokemon-card{background:white;border:1px solid #d4e4ed;border-radius:18px;overflow:hidden;box-shadow:0 8px 18px #20496212}.pokemon-picture{height:160px;background:linear-gradient(135deg,#d9f0ff,#fff9d6);display:grid;place-items:center;color:#54829a;font-size:42px}.pokemon-info{padding:14px 16px}.pokemon-name{font:800 19px 'Baloo 2',sans-serif}.pokemon-set{font-size:12px;color:#69808c;margin-top:2px}.pokemon-details{display:flex;justify-content:space-between;gap:8px;border-top:1px solid #edf2f5;margin-top:11px;padding-top:10px;font-size:12px;color:#546873}.qty{font-weight:800;color:#08734e}.empty{padding:25px;border-radius:14px;background:#fff;color:var(--muted)}footer{padding:20px 0 35px;color:#75848d;font-size:13px;text-align:center}
-    @media(max-width:700px){.wrap{width:min(100% - 28px,1440px)}.nav{min-height:72px;gap:10px}.brand img{width:51px;height:51px}.brand-name{font-size:18px}.nav>a{display:none}.search{width:42vw;padding:9px}.hero{padding-top:25px}.season{margin-top:19px}.set-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:17px 14px}.set-art{height:150px}.set-info{height:88px;padding:15px 13px}.set-name{font-size:18px}.set-count{font-size:10px;padding:5px 7px}.collection-heading h2{font-size:28px}.pokemon-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.pokemon-picture{height:125px}.pokemon-info{padding:11px}.pokemon-name{font-size:16px}}
-    @media(max-width:390px){.set-grid{grid-template-columns:1fr}.set-art{height:185px}.pokemon-grid{grid-template-columns:1fr}}
+    :root {
+      --sky: #d9effb;
+      --panel: #e8f5ff;
+      --cyan: #1aa7f9;
+      --cyan-dark: #0d85d9;
+      --gold: #f0c75d;
+      --gold-dark: #d4a63b;
+      --ink: #11181d;
+      --muted: #57707c;
+      --tile: #eaf4fa;
+      --line: #b2d4e7;
+      --card: #f2f7fb;
+      --white: #ffffff;
+      --shadow: 0 12px 20px rgba(17, 24, 29, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--sky);
+      color: var(--ink);
+    }
+
+    img { max-width: 100%; display: block; }
+    button, input { font: inherit; }
+    a { text-decoration: none; }
+
+    .page {
+      width: min(1400px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.6));
+      border-bottom: 1px solid rgba(177, 210, 227, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-height: 72px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-right: auto;
+    }
+
+    .brand-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      object-fit: contain;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .brand-text {
+      font-family: 'Baloo 2', cursive;
+      font-weight: 800;
+      line-height: 0.9;
+      font-size: 1.55rem;
+      letter-spacing: -0.04em;
+      color: #1d4e70;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-weight: 600;
+      color: #4d6774;
+    }
+
+    .nav-links a {
+      color: #4d6774;
+    }
+
+    .nav-search {
+      width: min(350px, 30vw);
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid #d5e7f4;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 8px;
+      color: #5a7a8a;
+    }
+
+    .nav-search input {
+      background: transparent;
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 0.98rem;
+      color: var(--ink);
+    }
+
+    .hero-header {
+      background: linear-gradient(90deg, #1ca4f7, #0c8de5);
+      border-radius: 18px;
+      box-shadow: 0 8px 0 rgba(23, 94, 148, 0.5);
+      padding: 18px 24px;
+      color: white;
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2rem, 2.8vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin: 22px 0 20px;
+    }
+
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(170px,1fr));
+      gap: 18px 18px;
+      padding-bottom: 24px;
+    }
+
+    .set-card {
+      display: block;
+      background: rgba(255,255,255,0.55);
+      border: 2px solid #d4c26a;
+      border-radius: 16px;
+      overflow: hidden;
+      min-height: 254px;
+      box-shadow: 0 5px 0 rgba(128, 117, 34, 0.18);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      cursor: pointer;
+    }
+
+    .set-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 rgba(128,117,34,0.24);
+    }
+
+    .set-art {
+      height: 156px;
+      background: linear-gradient(180deg, #dff2ff 0%, #ebf8ff 100%);
+      border-bottom: 2px solid #d3c163;
+      display: grid;
+      place-items: center;
+      padding: 10px 12px;
+    }
+
+    .set-word {
+      font-family: 'Baloo 2', cursive;
+      font-weight: 800;
+      line-height: 0.88;
+      color: #0e486b;
+      letter-spacing: -0.06em;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: clamp(1.2rem, 1.8vw, 2.2rem);
+      text-shadow: 2px 2px 0 rgba(255,255,255,0.62);
+      transform: skewX(-4deg);
+    }
+
+    .set-word.small {
+      font-size: clamp(1rem, 1.4vw, 1.7rem);
+    }
+
+    .set-name-box {
+      background: rgba(255,255,255,0.9);
+      border-top: 0;
+      padding: 14px 12px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #152a35;
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .series-grid .set-card:nth-child(1) .set-word,
+    .series-grid .set-card:nth-child(6) .set-word,
+    .series-grid .set-card:nth-child(10) .set-word {
+      color: #0d3d66;
+    }
+
+    .view {
+      display: none;
+      padding-bottom: 50px;
+    }
+
+    .view.open {
+      display: block;
+    }
+
+    .collection-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 20px 0 18px;
+    }
+
+    .back-btn {
+      background: rgba(255,255,255,0.8);
+      border: 1px solid #d6e6f3;
+      color: #1b7bc2;
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+
+    .collection-title {
+      margin: 0;
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2rem, 2.8vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: #1b2d39;
+    }
+
+    .poke-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 18px;
+    }
+
+    .poke-card {
+      background: rgba(255,255,255,0.78);
+      border: 1px solid #d5e5ef;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .poke-img {
+      height: 160px;
+      background: linear-gradient(180deg, #dfeeff, #fafaf7);
+      display: grid;
+      place-items: center;
+      font-size: 3rem;
+      color: #5e7a96;
+    }
+
+    .poke-body {
+      padding: 12px 14px 14px;
+    }
+
+    .poke-name {
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #11242c;
+      margin-bottom: 6px;
+    }
+
+    .poke-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.74rem;
+      color: #4f6570;
+      border-top: 1px solid #edf3f7;
+      padding-top: 8px;
+      margin-top: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #edfaf3;
+      color: #0f7a4b;
+      border-radius: 999px;
+      padding: 6px 8px;
+      font-weight: 800;
+      font-size: 0.72rem;
+    }
+
+    @media (max-width: 1180px) {
+      .series-grid { grid-template-columns: repeat(5, minmax(160px,1fr)); }
+    }
+
+    @media (max-width: 940px) {
+      .series-grid { grid-template-columns: repeat(3, minmax(150px,1fr)); }
+      .nav-links { display: none; }
+      .nav-search { width: min(220px, 40vw); }
+    }
+
+    @media (max-width: 620px) {
+      .page { width: min(100% - 20px, 1400px); }
+      .nav { min-height: 66px; }
+      .brand-logo { width: 46px; height: 46px; }
+      .brand-text { font-size: 1.2rem; }
+      .nav-search { display: none; }
+      .series-grid { grid-template-columns: repeat(2, minmax(130px, 1fr)); gap: 14px; }
+      .set-art { height: 124px; }
+      .set-name-box { font-size: 0.9rem; min-height: 62px; }
+      .collection-header { align-items: flex-start; flex-direction: column; }
+    }
   </style>
 </head>
 <body>
-  <header class="topbar"><div class="wrap nav">
-    <div class="brand"><img src="brightbird-logo.svg" alt="Bright Bird Cardshop-logo"><div class="brand-name">BRIGHT BIRD<small>CARD SHOP</small></div></div>
-    <a href="#reeksen">Reeksen</a><a href="#collectie">Mijn collectie</a>
-    <label class="search" aria-label="Zoeken"><span>⌕</span><input id="search" type="search" placeholder="Zoek Pokémon of reeks..."></label>
-  </div></header>
-  <main class="wrap">
-    <section class="hero"><h1>Mijn Pokémon-kaarten</h1><p>Bekijk de collectie overzichtelijk per reeks. Kies een reeks om de kaarten te bekijken.</p></section>
-    <section id="seriesView">
-      <h2 class="season">Mijn collectie · Reeksen</h2>
-      <div id="sets" class="set-grid" aria-label="Pokémon-reeksen"></div>
+  <header class="topbar">
+    <div class="page nav">
+      <div class="brand">
+        <img class="brand-logo" src="brightbird-logo.svg" alt="Bright Bird logo" />
+        <div class="brand-text">BRIGHT BIRD</div>
+      </div>
+      <nav class="nav-links">
+        <a href="#reeksen">Reeksen</a>
+        <a href="#collectie">Collectie</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <label class="nav-search" aria-label="Zoeken">
+        <span>⌕</span>
+        <input id="searchInput" type="search" placeholder="Zoek reeks of kaart..." />
+      </label>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="hero-header">Mega Evolution • 2025 – heden</div>
+
+    <section id="seriesView" class="view open">
+      <div id="seriesGrid" class="series-grid"></div>
     </section>
-    <section id="collectionView" class="collection-view" aria-live="polite">
-      <button id="backButton" class="back" type="button">← Alle reeksen</button>
-      <div class="collection-heading"><div><h2 id="collectionTitle"></h2><p id="collectionCount"></p></div></div>
-      <div id="pokemonCards" class="pokemon-grid"></div>
+
+    <section id="collectionView" class="view">
+      <div class="collection-header">
+        <button id="backBtn" class="back-btn" type="button">← Alle reeksen</button>
+        <h2 id="collectionTitle" class="collection-title">Reeks</h2>
+      </div>
+      <div id="collectionGrid" class="poke-grid"></div>
     </section>
   </main>
-  <footer class="wrap">Bright Bird Cardshop · Pokémon-kaartencollectie</footer>
+
   <script>
-    // Overgenomen uit de aangeleverde collectie-screenshot. Aantal is alleen ingevuld waar zichtbaar.
     const collection = [
-      {name:"Team Rocket's Mewtwo ex",set:"Destined Rivals",code:"DRI EN",number:"231"},
-      {name:"Umbreon ex",set:"Prismatic Evolutions",code:"PRE EN",number:"161"},
-      {name:"Mewtwo & Mew GX",set:"Unified Minds",code:"Unified Minds",number:"71"},
-      {name:"Reshiram ex",set:"White Flare JP",code:"sv11W",number:"174"},
-      {name:"Slowpoke & Psyduck GX",set:"Unified Minds",code:"Unified Minds",number:"218"},
-      {name:"Moltres & Zapdos & Articuno",set:"Hidden Fates",code:"Hidden Fates",number:"69"},
-      {name:"Victini VMAX",set:"Battle Styles",code:"Battle Styles",number:"165"},
-      {name:"Gengar",set:"Lost Origin",code:"Lost Origin",number:"TG06"},
-      {name:"Eevee",set:"Brilliant Stars",code:"Brilliant Stars",number:"TG11"},
-      {name:"Chimchar",set:"DP Black Star Promos",code:"DP Black Star Promos",number:"2"},
-      {name:"Pikachu",set:"Cosmic Eclipse",code:"Cosmic Eclipse",number:"241"},
-      {name:"Zeraora V",set:"Chilling Reign",code:"Chilling Reign",number:"166"},
-      {name:"Lugia V",set:"Silver Tempest",code:"Silver Tempest",number:"138"},
-      {name:"Garbodor",set:"Paradox Rift",code:"PAR EN",number:"204"},
-      {name:"Dragapult ex",set:"Prismatic Evolutions",code:"PRE EN",number:"165"},
-      {name:"Milotic ex",set:"Surging Sparks",code:"SSP EN",number:"237"},
-      {name:"Mega Dragonite ex",set:"Ascended Heroes",code:"ASC EN",number:"295"},
-      {name:"Mega Charizard Y ex",set:"Ascended Heroes",code:"ASC EN",number:"294"},
-      {name:"M Charizard ex",set:"Evolutions",code:"Evolutions",number:"101"},
-      {name:"Pikachu",set:"Lost Origin",code:"Lost Origin",number:"TG05"},
-      {name:"Mega Greninja ex",set:"Chaos Rising",code:"CRI EN",number:"116",qty:2}
+      { name: "Team Rocket's Mewtwo ex", set: "Destined Rivals", code: "DRI EN", number: "231"},
+      { name: "Umbreon ex", set: "Prismatic Evolutions", code: "PRE EN", number: "161"},
+      { name: "Mewtwo & Mew GX", set: "Unified Minds", code: "Unified Minds", number: "71"},
+      { name: "Reshiram ex", set: "White Flare JP", code: "sv11W", number: "174"},
+      { name: "Slowpoke & Psyduck GX", set: "Unified Minds", code: "Unified Minds", number: "218"},
+      { name: "Moltres & Zapdos & Articuno", set: "Hidden Fates", code: "Hidden Fates", number: "69"},
+      { name: "Victini VMAX", set: "Battle Styles", code: "Battle Styles", number: "165"},
+      { name: "Gengar", set: "Lost Origin", code: "Lost Origin", number: "TG06"},
+      { name: "Eevee", set: "Brilliant Stars", code: "Brilliant Stars", number: "TG11"},
+      { name: "Chimchar", set: "DP Black Star Promos", code: "DP Black Star Promos", number: "2"},
+      { name: "Pikachu", set: "Cosmic Eclipse", code: "Cosmic Eclipse", number: "241"},
+      { name: "Zeraora V", set: "Chilling Reign", code: "Chilling Reign", number: "166"},
+      { name: "Lugia V", set: "Silver Tempest", code: "Silver Tempest", number: "138"},
+      { name: "Garbodor", set: "Paradox Rift", code: "PAR EN", number: "204"},
+      { name: "Dragapult ex", set: "Prismatic Evolutions", code: "PRE EN", number: "165"},
+      { name: "Milotic ex", set: "Surging Sparks", code: "SSP EN", number: "237"},
+      { name: "Mega Dragonite ex", set: "Ascended Heroes", code: "ASC EN", number: "295"},
+      { name: "Mega Charizard Y ex", set: "Ascended Heroes", code: "ASC EN", number: "294"},
+      { name: "M Charizard ex", set: "Evolutions", code: "Evolutions", number: "101"},
+      { name: "Pikachu", set: "Lost Origin", code: "Lost Origin", number: "TG05"},
+      { name: "Mega Greninja ex", set: "Chaos Rising", code: "CRI EN", number: "116" }
     ];
-    const seriesView=document.getElementById('seriesView'), collectionView=document.getElementById('collectionView');
-    const setsEl=document.getElementById('sets'), search=document.getElementById('search');
-    const groups=[...new Set(collection.map(card=>card.set))].map(name=>({name,cards:collection.filter(card=>card.set===name)}));
-    function initials(name){return name==='30th Celebration'?'30':name.split(/\s+/).slice(0,2).map(word=>word[0]).join('')}
-    function renderSets(query=''){
-      const filtered=groups.filter(group=>group.name.toLowerCase().includes(query)||group.cards.some(card=>card.name.toLowerCase().includes(query)));
-      setsEl.innerHTML=filtered.length?filtered.map((group,index)=>`<button class="set-card" type="button" data-set="${encodeURIComponent(group.name)}"><span class="set-art"><span class="set-wordmark ${group.name==='DP Black Star Promos'?'promo':''}"><small>${group.cards[0].code}</small>${group.name}</span></span><span class="set-info"><span class="set-name">${group.name}</span><span class="set-count">${group.cards.length} ${group.cards.length===1?'kaart':'kaarten'}</span></span></button>`).join(''):'<p class="empty">Geen reeksen gevonden.</p>';
-      setsEl.querySelectorAll('.set-card').forEach(button=>button.addEventListener('click',()=>showCollection(decodeURIComponent(button.dataset.set))));
+
+    const seriesGrid = document.getElementById('seriesGrid');
+    const collectionView = document.getElementById('collectionView');
+    const seriesView = document.getElementById('seriesView');
+    const collectionTitle = document.getElementById('collectionTitle');
+    const collectionGrid = document.getElementById('collectionGrid');
+    const searchInput = document.getElementById('searchInput');
+    const backBtn = document.getElementById('backBtn');
+
+    function formatSetName(name) {
+      return name === 'DP Black Star Promos' ? 'DP Black Star Promos' : name;
     }
-    function showCollection(setName, query=''){
-      const cards=collection.filter(card=>card.set===setName&&(!query||card.name.toLowerCase().includes(query)||card.number.toLowerCase().includes(query)));
-      seriesView.style.display='none';collectionView.classList.add('open');
-      document.getElementById('collectionTitle').textContent=setName;
-      document.getElementById('collectionCount').textContent=`${cards.length} ${cards.length===1?'kaart':'kaarten'} in deze reeks`;
-      document.getElementById('pokemonCards').innerHTML=cards.length?cards.map(card=>`<article class="pokemon-card"><div class="pokemon-picture" aria-hidden="true">✦</div><div class="pokemon-info"><div class="pokemon-name">${card.name}</div><div class="pokemon-set">${card.set} · ${card.code}</div><div class="pokemon-details"><span>Kaart #${card.number}</span><span class="qty">${card.qty?`Aantal: ${card.qty}`:'In collectie'}</span></div></div></article>`).join(''):'<p class="empty">Geen kaarten gevonden.</p>';
-      collectionView.scrollIntoView({behavior:'smooth',block:'start'});
+
+    function getSeriesData() {
+      return Array.from(new Map(
+        collection.map(card => [card.set, card])
+      ).keys()).map(setName => ({
+        name: setName,
+        cards: collection.filter(card => card.set === setName)
+      }));
     }
-    document.getElementById('backButton').addEventListener('click',()=>{collectionView.classList.remove('open');seriesView.style.display='';renderSets(search.value.trim().toLowerCase());seriesView.scrollIntoView({behavior:'smooth'});});
-    search.addEventListener('input',()=>{const query=search.value.trim().toLowerCase();if(collectionView.classList.contains('open')){const setName=document.getElementById('collectionTitle').textContent;showCollection(setName,query)}else renderSets(query)});
-    renderSets();
+
+    function getWordmarkLabel(name) {
+      if (name === '30th Celebration') return '30th Celebration';
+      if (name === 'DP Black Star Promos') return 'Mega Evolution Promos';
+      if (name === 'Lost Origin') return 'Lost Origin';
+      if (name === 'Chaos Rising') return 'Chaos Rising';
+      if (name === 'Ascended Heroes') return 'Ascended Heroes';
+      if (name === 'Prismatic Evolutions') return 'Prismatic Evolutions';
+      return name;
+    }
+
+    function renderSeries(query='') {
+      const clean = query.toLowerCase().trim();
+      const items = getSeriesData().filter(series => {
+        if (!clean) return true;
+        return series.name.toLowerCase().includes(clean)
+          || series.cards.some(card => card.name.toLowerCase().includes(clean));
+      });
+
+      seriesGrid.innerHTML = items.map(series => {
+        const label = getWordmarkLabel(series.name);
+        return `
+          <button class="set-card" type="button" data-series="${encodeURIComponent(series.name)}">
+            <div class="set-art">
+              <div class="set-word ${series.name === 'DP Black Star Promos' ? 'small' : ''}">${label}</div>
+            </div>
+            <div class="set-name-box">${series.name}</div>
+          </button>
+        `;
+      }).join('');
+
+      seriesGrid.querySelectorAll('.set-card').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const name = decodeURIComponent(btn.dataset.series);
+          showCollection(name);
+        });
+      });
+    }
+
+    function showCollection(name) {
+      const seriesCards = collection.filter(card => card.set === name);
+      collectionTitle.textContent = name;
+      collectionGrid.innerHTML = seriesCards.map(card => `
+        <article class="poke-card">
+          <div class="poke-img">✦</div>
+          <div class="poke-body">
+            <div class="poke-name">${card.name}</div>
+            <div class="poke-meta">
+              <span>${card.set}</span>
+              <span class="badge">#${card.number}</span>
+            </div>
+          </div>
+        </article>
+      `).join('');
+
+      seriesView.classList.remove('open');
+      collectionView.classList.add('open');
+    }
+
+    backBtn.addEventListener('click', () => {
+      collectionView.classList.remove('open');
+      seriesView.classList.add('open');
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      const q = e.target.value.trim();
+      if (collectionView.classList.contains('open')) {
+        const visible = document.getElementById('collectionTitle').textContent;
+        const list = collection.filter(card => card.set === visible && (
+          !q || card.name.toLowerCase().includes(q.toLowerCase()) || card.number.includes(q)
+        ));
+
+        collectionGrid.innerHTML = list.map(card => `
+          <article class="poke-card">
+            <div class="poke-img">✦</div>
+            <div class="poke-body">
+              <div class="poke-name">${card.name}</div>
+              <div class="poke-meta">
+                <span>${card.set}</span>
+                <span class="badge">#${card.number}</span>
+              </div>
+            </div>
+          </article>
+        `).join('');
+        return;
+      }
+
+      renderSeries(q);
+    });
+
+    renderSeries();
   </script>
 </body>
 </html>
+
