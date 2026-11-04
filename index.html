@@ -544,263 +544,265 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const SUPABASE_URL = "https://zshiboydolzozgoivyui.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaGlib3lkb2x6b3pnb2l2eXVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4MjA5NzksImV4cCI6MjEwOTM5Njk3OX0.0fSYlmLLM_E6wuQS3Vu6gI4IOji-7mY0EAapkKT-bEg";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    (() => {
+      const SUPABASE_URL = "https://zshiboydolzozgoivyui.supabase.co";
+      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaGlib3lkb2x6b3pnb2l2eXVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4MjA5NzksImV4cCI6MjEwOTM5Njk3OX0.0fSYlmLLM_E6wuQS3Vu6gI4IOji-7mY0EAapkKT-bEg";
+      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    let cards = [];
-    const seriesGrid = document.getElementById('seriesGrid');
-    const collectionView = document.getElementById('collectionView');
-    const seriesView = document.getElementById('seriesView');
-    const collectionTitle = document.getElementById('collectionTitle');
-    const collectionGrid = document.getElementById('collectionGrid');
-    const backBtn = document.getElementById('backBtn');
-    const searchInput = document.getElementById('searchInput');
-    const cardForm = document.getElementById('cardForm');
-    const cardsList = document.getElementById('cardsList');
+      let cards = [];
+      const seriesGrid = document.getElementById('seriesGrid');
+      const collectionView = document.getElementById('collectionView');
+      const seriesView = document.getElementById('seriesView');
+      const collectionTitle = document.getElementById('collectionTitle');
+      const collectionGrid = document.getElementById('collectionGrid');
+      const backBtn = document.getElementById('backBtn');
+      const searchInput = document.getElementById('searchInput');
+      const cardForm = document.getElementById('cardForm');
+      const cardsList = document.getElementById('cardsList');
 
-    function renderSeries(query = '') {
-      const clean = query.toLowerCase().trim();
-      const grouped = new Map();
+      function renderSeries(query = '') {
+        const clean = query.toLowerCase().trim();
+        const grouped = new Map();
 
-      cards.forEach((card) => {
-        const setName = (card.set_name || '').trim();
-        if (!setName) return;
+        cards.forEach((card) => {
+          const setName = (card.set_name || '').trim();
+          if (!setName) return;
 
-        const matches = !clean ||
-          setName.toLowerCase().includes(clean) ||
-          (card.name || '').toLowerCase().includes(clean) ||
-          (card.number || '').toLowerCase().includes(clean);
+          const matches = !clean ||
+            setName.toLowerCase().includes(clean) ||
+            (card.name || '').toLowerCase().includes(clean) ||
+            (card.number || '').toLowerCase().includes(clean);
 
-        if (matches) {
-          if (!grouped.has(setName)) grouped.set(setName, []);
-          grouped.get(setName).push(card);
+          if (matches) {
+            if (!grouped.has(setName)) grouped.set(setName, []);
+            grouped.get(setName).push(card);
+          }
+        });
+
+        const entries = Array.from(grouped.entries());
+        seriesGrid.innerHTML = entries.map(([setName]) => `
+          <button class="set-card" type="button" data-series="${encodeURIComponent(setName)}">
+            <div class="set-art">
+              <div class="set-word">${setName}</div>
+            </div>
+            <div class="set-name-box">${setName}</div>
+          </button>
+        `).join('');
+
+        seriesGrid.querySelectorAll('.set-card').forEach((button) => {
+          button.addEventListener('click', () => {
+            const name = decodeURIComponent(button.dataset.series);
+            showCollection(name);
+          });
+        });
+      }
+
+      function showCollection(name) {
+        const items = cards.filter((card) => (card.set_name || '') === name);
+        collectionTitle.textContent = name;
+        collectionGrid.innerHTML = items.map((card) => `
+          <article class="poke-card">
+            <div class="poke-img">
+              ${card.image ? `<img src="${card.image}" alt="${card.name}" />` : '✦'}
+            </div>
+            <div class="poke-body">
+              <div class="poke-name">${card.name}</div>
+              <div class="poke-meta">
+                <span>${card.set_name}</span>
+                <span class="badge">#${card.number}</span>
+              </div>
+            </div>
+          </article>
+        `).join('');
+
+        seriesView.classList.remove('open');
+        collectionView.classList.add('open');
+      }
+
+      async function loadCards() {
+        const { data, error } = await supabase
+          .from('cards')
+          .select('*')
+          .order('id', { ascending: false });
+
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+        cards = data || [];
+        renderSeries();
+
+        if (collectionView.classList.contains('open')) {
+          const current = collectionTitle.textContent.trim();
+          if (current) showCollection(current);
+        }
+      }
+
+      function renderAdminList() {
+        cardsList.innerHTML = cards.map((card) => `
+          <div class="card-row">
+            <div>
+              <strong>${card.name}</strong>
+              <small>${card.set_name} • #${card.number}</small>
+            </div>
+            <div class="card-row-buttons">
+              <button type="button" class="edit-btn" data-edit="${card.id}">Bewerk</button>
+              <button type="button" class="delete-btn" data-delete="${card.id}">Verwijder</button>
+            </div>
+          </div>
+        `).join('');
+
+        document.querySelectorAll('[data-edit]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const card = cards.find((item) => item.id === Number(button.dataset.edit));
+            if (!card) return;
+
+            cardForm.name.value = card.name || '';
+            cardForm.set_name.value = card.set_name || '';
+            cardForm.number.value = card.number || '';
+            cardForm.rarity.value = card.rarity || 'Rare';
+            cardForm.type.value = card.type || 'Electric';
+            cardForm.condition.value = card.condition || 'Mint';
+            cardForm.price.value = card.price || 0;
+            cardForm.image.value = card.image || '';
+            cardForm.dataset.editId = card.id;
+          });
+        });
+
+        document.querySelectorAll('[data-delete]').forEach((button) => {
+          button.addEventListener('click', async () => {
+            const ok = confirm('Weet je zeker dat je deze kaart wil verwijderen?');
+            if (!ok) return;
+
+            const { error } = await supabase
+              .from('cards')
+              .delete()
+              .eq('id', Number(button.dataset.delete));
+
+            if (error) {
+              console.error(error);
+              alert('Verwijderen mislukt');
+              return;
+            }
+
+            await loadCards();
+          });
+        });
+      }
+
+      async function saveCard(event) {
+        event.preventDefault();
+
+        const payload = {
+          name: cardForm.name.value.trim(),
+          set_name: cardForm.set_name.value.trim(),
+          number: cardForm.number.value.trim(),
+          rarity: cardForm.rarity.value.trim() || 'Rare',
+          type: cardForm.type.value.trim() || 'Unknown',
+          condition: cardForm.condition.value.trim() || 'Mint',
+          price: Number(cardForm.price.value || 0),
+          image: cardForm.image.value.trim() || '',
+          tag: (cardForm.rarity.value.trim() || 'rare').toLowerCase()
+        };
+
+        if (!payload.name || !payload.set_name || !payload.number) {
+          alert('Vul minimaal naam, reeks en nummer in.');
+          return;
+        }
+
+        const editId = cardForm.dataset.editId;
+        let result;
+
+        if (editId) {
+          result = await supabase
+            .from('cards')
+            .update(payload)
+            .eq('id', Number(editId));
+        } else {
+          result = await supabase
+            .from('cards')
+            .insert([payload]);
+        }
+
+        if (result.error) {
+          console.error(result.error);
+          alert('Opslaan mislukt');
+          return;
+        }
+
+        cardForm.reset();
+        delete cardForm.dataset.editId;
+        await loadCards();
+        renderAdminList();
+      }
+
+      async function loginAdmin() {
+        const email = document.getElementById('adminEmail').value.trim();
+        const password = document.getElementById('adminPassword').value.trim();
+
+        if (!email || !password) {
+          alert('Vul e-mail en wachtwoord in.');
+          return;
+        }
+
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+        if (error) {
+          alert('Onjuiste inloggegevens');
+          return;
+        }
+
+        document.getElementById('adminLoginWrap').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        await loadCards();
+        renderAdminList();
+      }
+
+      async function logoutAdmin() {
+        const { error } = await supabase.auth.signOut();
+        if (!error) {
+          document.getElementById('adminLoginWrap').style.display = 'block';
+          document.getElementById('adminPanel').style.display = 'none';
+          document.getElementById('adminPassword').value = '';
+        }
+      }
+
+      document.getElementById('loginBtn').addEventListener('click', loginAdmin);
+      document.getElementById('logoutBtn').addEventListener('click', logoutAdmin);
+      document.getElementById('cardForm').addEventListener('submit', saveCard);
+      document.getElementById('adminOpenBtn').addEventListener('click', () => {
+        document.getElementById('adminModal').style.display = 'flex';
+      });
+      document.getElementById('adminCloseBtn').addEventListener('click', () => {
+        document.getElementById('adminModal').style.display = 'none';
+      });
+
+      backBtn.addEventListener('click', () => {
+        collectionView.classList.remove('open');
+        seriesView.classList.add('open');
+      });
+
+      searchInput.addEventListener('input', (event) => {
+        renderSeries(event.target.value);
+      });
+
+      supabase.auth.onAuthStateChange((event, session) => {
+        const loginWrap = document.getElementById('adminLoginWrap');
+        const adminPanel = document.getElementById('adminPanel');
+
+        if (session) {
+          loginWrap.style.display = 'none';
+          adminPanel.style.display = 'block';
+          renderAdminList();
+        } else {
+          loginWrap.style.display = 'block';
+          adminPanel.style.display = 'none';
         }
       });
 
-      const entries = Array.from(grouped.entries());
-      seriesGrid.innerHTML = entries.map(([setName]) => `
-        <button class="set-card" type="button" data-series="${encodeURIComponent(setName)}">
-          <div class="set-art">
-            <div class="set-word">${setName}</div>
-          </div>
-          <div class="set-name-box">${setName}</div>
-        </button>
-      `).join('');
-
-      seriesGrid.querySelectorAll('.set-card').forEach((button) => {
-        button.addEventListener('click', () => {
-          const name = decodeURIComponent(button.dataset.series);
-          showCollection(name);
-        });
-      });
-    }
-
-    function showCollection(name) {
-      const items = cards.filter((card) => (card.set_name || '') === name);
-      collectionTitle.textContent = name;
-      collectionGrid.innerHTML = items.map((card) => `
-        <article class="poke-card">
-          <div class="poke-img">
-            ${card.image ? `<img src="${card.image}" alt="${card.name}" />` : '✦'}
-          </div>
-          <div class="poke-body">
-            <div class="poke-name">${card.name}</div>
-            <div class="poke-meta">
-              <span>${card.set_name}</span>
-              <span class="badge">#${card.number}</span>
-            </div>
-          </div>
-        </article>
-      `).join('');
-
-      seriesView.classList.remove('open');
-      collectionView.classList.add('open');
-    }
-
-    async function loadCards() {
-      const { data, error } = await supabase
-        .from('cards')
-        .select('*')
-        .order('id', { ascending: false });
-
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      cards = data || [];
-      renderSeries();
-
-      if (collectionView.classList.contains('open')) {
-        const current = collectionTitle.textContent.trim();
-        if (current) showCollection(current);
-      }
-    }
-
-    function renderAdminList() {
-      cardsList.innerHTML = cards.map((card) => `
-        <div class="card-row">
-          <div>
-            <strong>${card.name}</strong>
-            <small>${card.set_name} • #${card.number}</small>
-          </div>
-          <div class="card-row-buttons">
-            <button type="button" class="edit-btn" data-edit="${card.id}">Bewerk</button>
-            <button type="button" class="delete-btn" data-delete="${card.id}">Verwijder</button>
-          </div>
-        </div>
-      `).join('');
-
-      document.querySelectorAll('[data-edit]').forEach((button) => {
-        button.addEventListener('click', () => {
-          const card = cards.find((item) => item.id === Number(button.dataset.edit));
-          if (!card) return;
-
-          cardForm.name.value = card.name || '';
-          cardForm.set_name.value = card.set_name || '';
-          cardForm.number.value = card.number || '';
-          cardForm.rarity.value = card.rarity || 'Rare';
-          cardForm.type.value = card.type || 'Electric';
-          cardForm.condition.value = card.condition || 'Mint';
-          cardForm.price.value = card.price || 0;
-          cardForm.image.value = card.image || '';
-          cardForm.dataset.editId = card.id;
-        });
-      });
-
-      document.querySelectorAll('[data-delete]').forEach((button) => {
-        button.addEventListener('click', async () => {
-          const ok = confirm('Weet je zeker dat je deze kaart wil verwijderen?');
-          if (!ok) return;
-
-          const { error } = await supabase
-            .from('cards')
-            .delete()
-            .eq('id', Number(button.dataset.delete));
-
-          if (error) {
-            console.error(error);
-            alert('Verwijderen mislukt');
-            return;
-          }
-
-          await loadCards();
-        });
-      });
-    }
-
-    async function saveCard(event) {
-      event.preventDefault();
-
-      const payload = {
-        name: cardForm.name.value.trim(),
-        set_name: cardForm.set_name.value.trim(),
-        number: cardForm.number.value.trim(),
-        rarity: cardForm.rarity.value.trim() || 'Rare',
-        type: cardForm.type.value.trim() || 'Unknown',
-        condition: cardForm.condition.value.trim() || 'Mint',
-        price: Number(cardForm.price.value || 0),
-        image: cardForm.image.value.trim() || '',
-        tag: (cardForm.rarity.value.trim() || 'rare').toLowerCase()
-      };
-
-      if (!payload.name || !payload.set_name || !payload.number) {
-        alert('Vul minimaal naam, reeks en nummer in.');
-        return;
-      }
-
-      const editId = cardForm.dataset.editId;
-      let result;
-
-      if (editId) {
-        result = await supabase
-          .from('cards')
-          .update(payload)
-          .eq('id', Number(editId));
-      } else {
-        result = await supabase
-          .from('cards')
-          .insert([payload]);
-      }
-
-      if (result.error) {
-        console.error(result.error);
-        alert('Opslaan mislukt');
-        return;
-      }
-
-      cardForm.reset();
-      delete cardForm.dataset.editId;
-      await loadCards();
-      renderAdminList();
-    }
-
-    async function loginAdmin() {
-      const email = document.getElementById('adminEmail').value.trim();
-      const password = document.getElementById('adminPassword').value.trim();
-
-      if (!email || !password) {
-        alert('Vul e-mail en wachtwoord in.');
-        return;
-      }
-
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-      if (error) {
-        alert('Onjuiste inloggegevens');
-        return;
-      }
-
-      document.getElementById('adminLoginWrap').style.display = 'none';
-      document.getElementById('adminPanel').style.display = 'block';
-      await loadCards();
-      renderAdminList();
-    }
-
-    async function logoutAdmin() {
-      const { error } = await supabase.auth.signOut();
-      if (!error) {
-        document.getElementById('adminLoginWrap').style.display = 'block';
-        document.getElementById('adminPanel').style.display = 'none';
-        document.getElementById('adminPassword').value = '';
-      }
-    }
-
-    document.getElementById('loginBtn').addEventListener('click', loginAdmin);
-    document.getElementById('logoutBtn').addEventListener('click', logoutAdmin);
-    document.getElementById('cardForm').addEventListener('submit', saveCard);
-    document.getElementById('adminOpenBtn').addEventListener('click', () => {
-      document.getElementById('adminModal').style.display = 'flex';
-    });
-    document.getElementById('adminCloseBtn').addEventListener('click', () => {
-      document.getElementById('adminModal').style.display = 'none';
-    });
-
-    backBtn.addEventListener('click', () => {
-      collectionView.classList.remove('open');
-      seriesView.classList.add('open');
-    });
-
-    searchInput.addEventListener('input', (event) => {
-      renderSeries(event.target.value);
-    });
-
-    supabase.auth.onAuthStateChange((event, session) => {
-      const loginWrap = document.getElementById('adminLoginWrap');
-      const adminPanel = document.getElementById('adminPanel');
-
-      if (session) {
-        loginWrap.style.display = 'none';
-        adminPanel.style.display = 'block';
-        renderAdminList();
-      } else {
-        loginWrap.style.display = 'block';
-        adminPanel.style.display = 'none';
-      }
-    });
-
-    loadCards();
+      loadCards();
+    })();
   </script>
 </body>
 </html>
