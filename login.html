@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f6f4ec" />
+  <title>Welkom bij Bright Bird</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root { --ink: #17364b; --muted: #71818b; --blue: #138bce; --gold: #f2c84b; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 28px 18px; color: var(--ink); font-family: Inter, sans-serif; background: #f6f4ec; }
+    .backdrop { position: fixed; inset: 0; overflow: hidden; z-index: -1; background: radial-gradient(ellipse at 12% 18%, #d9edf0 0, transparent 34%), radial-gradient(ellipse at 91% 82%, #f6e8c7 0, transparent 32%), #f6f4ec; }
+    .shape { position: absolute; border-radius: 50%; filter: blur(1px); opacity: .8; }
+    .shape-a { width: 340px; height: 340px; top: -160px; right: 12%; background: #e7dff5; }
+    .shape-b { width: 260px; height: 260px; bottom: -120px; left: 8%; background: #d7eadb; }
+    .shape-c { width: 110px; height: 110px; top: 24%; left: 14%; background: #f6df9d; opacity: .55; }
+    .login { width: min(100%, 430px); padding: 38px; border: 1px solid rgba(255,255,255,.9); border-radius: 26px; background: rgba(255,255,255,.88); box-shadow: 0 24px 75px rgba(34,57,64,.11); backdrop-filter: blur(12px); }
+    .logo { display: block; width: 106px; height: 106px; margin: 0 auto 15px; padding: 8px; border-radius: 28px; object-fit: contain; background: #fff; box-shadow: 0 7px 22px rgba(24,73,92,.1); }
+    h1 { margin: 0 0 26px; text-align: center; font: 800 2.2rem/1.05 'Baloo 2', cursive; letter-spacing: -.04em; color: #1c5577; }
+    label { display: block; margin: 0 0 7px; font-size: .85rem; font-weight: 700; }
+    .field { margin-bottom: 17px; }
+    input { width: 100%; height: 48px; padding: 0 13px; border: 1px solid #dfe7e8; border-radius: 11px; outline: none; background: #fff; color: var(--ink); font: inherit; }
+    input:focus { border-color: #69b5dc; box-shadow: 0 0 0 3px rgba(19,139,206,.12); }
+    .password { position: relative; }
+    .password input { padding-right: 75px; }
+    .toggle { position: absolute; top: 50%; right: 11px; transform: translateY(-50%); border: 0; background: transparent; color: var(--blue); cursor: pointer; font-weight: 700; }
+    .submit { width: 100%; min-height: 49px; margin-top: 5px; border: 0; border-radius: 11px; background: var(--blue); color: #fff; cursor: pointer; font: 700 1rem Inter, sans-serif; transition: background .2s, transform .2s; }
+    .submit:hover { background: #0876b4; transform: translateY(-1px); }
+    .submit:disabled { opacity: .65; cursor: wait; }
+    .message { display: none; margin-top: 14px; padding: 11px 13px; border-radius: 10px; font-size: .85rem; }
+    .message.error { display: block; color: #973a32; background: #fff0ed; }
+    .message.success { display: block; color: #176844; background: #edfbf3; }
+    .back { display: block; margin-top: 20px; color: var(--muted); text-align: center; font-size: .85rem; text-decoration: none; }
+    .back:hover { color: var(--blue); }
+    @media (max-width: 480px) { .login { padding: 30px 23px; } h1 { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true"><div class="shape shape-a"></div><div class="shape shape-b"></div><div class="shape shape-c"></div></div>
+  <main class="login">
+    <img class="logo" src="brightbird-logo.svg" alt="Bright Bird-logo" />
+    <h1>Welkom bij Bright Bird</h1>
+    <form id="loginForm">
+      <div class="field"><label for="email">E-mailadres</label><input id="email" type="email" autocomplete="username" placeholder="jij@voorbeeld.nl" required /></div>
+      <div class="field"><label for="password">Wachtwoord</label><div class="password"><input id="password" type="password" autocomplete="current-password" placeholder="Vul je wachtwoord in" required /><button class="toggle" id="togglePassword" type="button">Tonen</button></div></div>
+      <button class="submit" id="submitButton" type="submit">Inloggen</button>
+      <div class="message" id="message" role="status" aria-live="polite"></div>
+    </form>
+    <a class="back" href="index.html">← Terug naar de kaartencollectie</a>
+  </main>
+  <script>
+    (() => {
+      const form = document.getElementById('loginForm');
+      const password = document.getElementById('password');
+      const button = document.getElementById('submitButton');
+      const message = document.getElementById('message');
+      let client;
+      document.getElementById('togglePassword').addEventListener('click', (event) => {
+        const showing = password.type === 'text';
+        password.type = showing ? 'password' : 'text';
+        event.currentTarget.textContent = showing ? 'Tonen' : 'Verbergen';
+      });
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        button.disabled = true;
+        button.textContent = 'Bezig met inloggen…';
+        message.className = 'message';
+        try {
+          if (!client) {
+            const response = await fetch('index.html', { cache: 'no-store' });
+            if (!response.ok) throw new Error('De inlogservice is niet beschikbaar.');
+            const html = await response.text();
+            const read = (name) => { const match = html.match(new RegExp(`const\\s+${name}\\s*=\\s*["']([^"']+)["']`)); return match && match[1]; };
+            const url = read('SUPABASE_URL');
+            const key = read('SUPABASE_ANON_KEY');
+            if (!url || !key || !window.supabase) throw new Error('De inlogservice is niet beschikbaar.');
+            client = window.supabase.createClient(url, key);
+          }
+          const { error } = await client.auth.signInWithPassword({ email: document.getElementById('email').value.trim(), password: password.value });
+          if (error) throw error;
+          message.textContent = 'Inloggen gelukt!';
+          message.className = 'message success';
+          window.setTimeout(() => { window.location.href = 'index.html'; }, 600);
+        } catch (error) {
+          message.textContent = error.message === 'Invalid login credentials' ? 'Dit e-mailadres en wachtwoord komen niet overeen.' : (error.message || 'Inloggen is niet gelukt. Probeer het opnieuw.');
+          message.className = 'message error';
+          button.disabled = false;
+          button.textContent = 'Inloggen';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
