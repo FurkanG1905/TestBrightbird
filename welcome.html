@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welkom bij Bright Bird</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-1: #eaf7f3;
+      --bg-2: #f3efe7;
+      --card: rgba(255,255,255,0.88);
+      --navy: #143d52;
+      --navy-soft: #234d60;
+      --muted: #607781;
+      --gold: #d8b86d;
+      --gold-soft: #efdfad;
+      --line: rgba(23, 60, 74, 0.1);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--bg-1) 0%, #f8f5ef 36%, var(--bg-2) 100%);
+      color: var(--navy);
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 22px;
+    }
+
+    .bg-shape {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.42);
+      filter: blur(4px);
+    }
+
+    .orb.a {
+      width: 420px;
+      height: 420px;
+      left: -140px;
+      top: -140px;
+      background: rgba(177, 230, 210, 0.52);
+    }
+
+    .orb.b {
+      width: 420px;
+      height: 420px;
+      right: -110px;
+      bottom: -160px;
+      background: rgba(232, 210, 167, 0.50);
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 520px);
+      padding: 34px 28px 26px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: var(--card);
+      box-shadow: 0 28px 60px rgba(23, 52, 68, 0.12);
+      backdrop-filter: blur(10px);
+      text-align: center;
+    }
+
+    .logo-wrap {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, #fffdf8, #f2efe8);
+      border: 1px solid rgba(216,184,109,0.7);
+      box-shadow: 0 18px 28px rgba(20, 61, 82, 0.10);
+      padding: 16px;
+    }
+
+    .logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 50%;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2.3rem, 7vw, 4.4rem);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+      color: var(--navy);
+      text-shadow: 0 4px 0 rgba(255,255,255,0.7);
+    }
+
+    .sub {
+      margin: 10px 0 26px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-width: 220px;
+      height: 52px;
+      padding: 0 18px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 12px 22px rgba(20, 61, 82, 0.18);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 26px rgba(20, 61, 82, 0.22);
+    }
+
+    .cta span {
+      font-size: 1.2rem;
+      color: var(--gold-soft);
+    }
+
+    @media (max-width: 520px) {
+      .card {
+        padding: 28px 20px 22px;
+      }
+      .logo-wrap {
+        width: 120px;
+        height: 120px;
+      }
+      .sub {
+        font-size: 0.92rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-shape" aria-hidden="true">
+    <div class="orb a"></div>
+    <div class="orb b"></div>
+  </div>
+
+  <main class="card" aria-label="Welkom bij Bright Bird">
+    <div class="logo-wrap">
+      <img class="logo" src="brightbird-logo.png.JPG" alt="Bright Bird-logo" />
+    </div>
+    <h1>Welkom bij Bright Bird</h1>
+    <p class="sub">Ontdek onze kaartcollectie en duik in de wereld van Bright Bird.</p>
+    <a class="cta" href="index.html">Ga naar de site <span>→</span></a>
+  </main>
+</body>
+</html>
