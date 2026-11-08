@@ -11,7 +11,6 @@
     :root {
       --bg-1: #edf8f6;
       --bg-2: #f6f2e9;
-      --bg-3: #dfeef6;
       --card: rgba(255,255,255,0.72);
       --navy: #153d52;
       --navy-soft: #224d61;
@@ -20,193 +19,33 @@
       --gold-soft: #f3dfac;
       --line: rgba(21,61,82,0.10);
     }
-
     * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      width: 100%;
-      min-height: 100%;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, var(--bg-1) 0%, #f8f4ed 35%, var(--bg-2) 100%);
-      color: var(--navy);
-    }
-
-    body {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      padding: 24px;
-    }
-
-    .bg {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-
-    .blur {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(10px);
-      opacity: 0.78;
-    }
-
-    .blur.one {
-      width: 520px;
-      height: 520px;
-      left: -160px;
-      top: -180px;
-      background: rgba(143, 212, 196, 0.32);
-    }
-
-    .blur.two {
-      width: 560px;
-      height: 560px;
-      right: -180px;
-      bottom: -210px;
-      background: rgba(241, 214, 146, 0.30);
-    }
-
-    .blur.three {
-      width: 380px;
-      height: 380px;
-      left: 14%;
-      bottom: -110px;
-      background: rgba(161, 216, 232, 0.25);
-    }
-
-    .welcome {
-      position: relative;
-      z-index: 1;
-      width: min(100%, 620px);
-      padding: 28px 24px 30px;
-      border: 1px solid var(--line);
-      border-radius: 30px;
-      background: rgba(255,255,255,0.72);
-      box-shadow: 0 28px 60px rgba(15, 52, 68, 0.10);
-      backdrop-filter: blur(12px);
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .welcome:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 34px 64px rgba(15, 52, 68, 0.14);
-    }
-
-    .logo-wrap {
-      position: relative;
-      width: min(200px, 38vw);
-      aspect-ratio: 1;
-      margin: 0 auto 16px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      border: 3px solid rgba(217,184,111,0.9);
-      background: linear-gradient(145deg, #fffdf9, #f4efe6);
-      box-shadow: 0 16px 26px rgba(21, 61, 82, 0.10);
-      padding: 18px;
-    }
-
-    .logo {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      border-radius: 50%;
-    }
-
-    h1 {
-      margin: 0;
-      font-family: 'Baloo 2', cursive;
-      font-weight: 800;
-      letter-spacing: -0.06em;
-      line-height: 0.9;
-      font-size: clamp(2.7rem, 7.5vw, 5.2rem);
-      color: var(--navy);
-      text-shadow: 0 4px 0 rgba(255,255,255,0.7);
-    }
-
-    .sub {
-      margin: 12px auto 0;
-      max-width: 420px;
-      color: var(--muted);
-      font-size: 1.04rem;
-      line-height: 1.65;
-    }
-
-    .cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 24px;
-      min-width: 200px;
-      height: 54px;
-      padding: 0 20px;
-      border-radius: 16px;
-      border: none;
-      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
-      color: white;
-      text-decoration: none;
-      font-weight: 700;
-      box-shadow: 0 14px 24px rgba(17, 57, 72, 0.18);
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
-    }
-
-    .cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 26px rgba(17, 57, 72, 0.22);
-    }
-
-    .cta span {
-      color: var(--gold-soft);
-      font-size: 1.3rem;
-    }
-
-    @media (max-width: 520px) {
-      .welcome {
-        padding: 26px 20px 22px;
-      }
-      .sub {
-        font-size: 0.92rem;
-      }
-      .cta {
-        width: 100%;
-      }
-    }
+    html, body { margin: 0; width: 100%; min-height: 100%; font-family: 'Inter', sans-serif; background: linear-gradient(135deg, var(--bg-1) 0%, #f8f4ed 35%, var(--bg-2) 100%); color: var(--navy); }
+    body { min-height: 100vh; display: grid; place-items: center; overflow: hidden; padding: 24px; }
+    .bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .blur { position: absolute; border-radius: 50%; filter: blur(10px); opacity: .78; }
+    .blur.one { width: 520px; height: 520px; left: -160px; top: -180px; background: rgba(143,212,196,.32); }
+    .blur.two { width: 560px; height: 560px; right: -180px; bottom: -210px; background: rgba(241,214,146,.30); }
+    .blur.three { width: 380px; height: 380px; left: 14%; bottom: -110px; background: rgba(161,216,232,.25); }
+    .welcome { position: relative; z-index: 1; width: min(100%, 700px); padding: 34px 30px 32px; border: 1px solid var(--line); border-radius: 30px; background: rgba(255,255,255,.72); box-shadow: 0 28px 60px rgba(15,52,68,.10); backdrop-filter: blur(12px); text-align: center; }
+    .logo-wrap { position: relative; width: min(300px, 62vw); aspect-ratio: 1; margin: 0 auto 20px; display: grid; place-items: center; border-radius: 50%; border: 3px solid rgba(217,184,111,.9); background: linear-gradient(145deg,#fffdf9,#f4efe6); box-shadow: 0 16px 26px rgba(21,61,82,.10); padding: 12px; }
+    .logo { width: 100%; height: 100%; object-fit: contain; display: block; }
+    h1 { margin: 0; font-family: 'Baloo 2', cursive; font-weight: 800; letter-spacing: -.06em; line-height: .96; font-size: clamp(2.7rem, 7.5vw, 5.2rem); color: var(--navy); text-shadow: 0 4px 0 rgba(255,255,255,.7); }
+    .sub { margin: 12px auto 0; max-width: 420px; color: var(--muted); font-size: 1.04rem; line-height: 1.65; }
+    .cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 24px; min-width: 200px; height: 54px; padding: 0 20px; border-radius: 16px; border: 0; background: linear-gradient(135deg,var(--navy),var(--navy-soft)); color: white; text-decoration: none; font-weight: 700; box-shadow: 0 14px 24px rgba(17,57,72,.18); transition: transform .18s ease, box-shadow .18s ease; }
+    .cta:hover { transform: translateY(-2px); box-shadow: 0 18px 26px rgba(17,57,72,.22); }
+    .cta span { color: var(--gold-soft); font-size: 1.3rem; }
+    @media (max-width: 520px) { body { padding: 16px; } .welcome { padding: 26px 18px 22px; } .logo-wrap { width: min(250px, 68vw); } .sub { font-size: .92rem; } .cta { width: 100%; } }
+    @media (max-height: 720px) { .logo-wrap { width: min(230px, 38vh); margin-bottom: 14px; } .welcome { padding-top: 22px; padding-bottom: 22px; } }
   </style>
 </head>
 <body>
-  <div class="bg" aria-hidden="true">
-    <div class="blur one"></div>
-    <div class="blur two"></div>
-    <div class="blur three"></div>
-  </div>
-
-  <div class="welcome" id="welcomeScreen" role="button" tabindex="0" aria-label="Klik om door te gaan naar de kaartcollectie">
-    <div class="logo-wrap">
-      <img class="logo" src="brightbird-logo.png.JPG" alt="Bright Bird-logo" />
-    </div>
+  <div class="bg" aria-hidden="true"><div class="blur one"></div><div class="blur two"></div><div class="blur three"></div></div>
+  <main class="welcome">
+    <div class="logo-wrap"><img class="logo" src="brightbird-logo.png.JPG" alt="Bright Bird-logo" /></div>
     <h1>Welkom bij Bright Bird</h1>
-    <p class="sub">Klik ergens op deze pagina om verder te gaan naar de kaartcollectie.</p>
-    <a class="cta" href="index.html">Ga naar de site <span>→</span></a>
-  </div>
-
-  <script>
-    const el = document.getElementById('welcomeScreen');
-    const go = () => { window.location.href = 'index.html'; };
-    el.addEventListener('click', go);
-    el.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        go();
-      }
-    });
-  </script>
+    <p class="sub">Klik op de knop om verder te gaan naar de kaartcollectie.</p>
+    <a class="cta" href="index.html">Naar de kaartcollectie <span aria-hidden="true">→</span></a>
+  </main>
 </body>
 </html>
