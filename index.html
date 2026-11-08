@@ -22,6 +22,9 @@
       --card: #f2f7fb;
       --white: #ffffff;
       --shadow: 0 12px 20px rgba(17, 24, 29, 0.10);
+      --warm: #f7f3ec;
+      --warm-strong: #efe2c8;
+      --forest: #1d5d5e;
     }
 
     * { box-sizing: border-box; }
@@ -40,6 +43,54 @@
     .page {
       width: min(1400px, calc(100% - 32px));
       margin: 0 auto;
+    }
+
+    .landing-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at top left, rgba(205, 233, 230, 0.8), rgba(246, 240, 231, 0.93) 32%, rgba(244, 238, 227, 1) 100%);
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .landing-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .landing-content {
+      text-align: center;
+      padding: 32px;
+      color: #173c4a;
+    }
+
+    .landing-logo {
+      width: min(210px, 42vw);
+      height: auto;
+      margin: 0 auto 18px;
+      filter: drop-shadow(0 12px 25px rgba(23, 88, 103, 0.14));
+    }
+
+    .landing-title {
+      margin: 0;
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2.3rem, 6vw, 5.2rem);
+      line-height: 0.9;
+      letter-spacing: -0.055em;
+      color: #123d50;
+      text-shadow: 0 4px 0 rgba(255,255,255,0.7);
+    }
+
+    .landing-sub {
+      margin: 14px 0 0;
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+      color: rgba(23, 60, 74, 0.8);
     }
 
     .topbar {
@@ -464,10 +515,19 @@
       .set-name-box { font-size: 0.9rem; min-height: 62px; }
       .collection-header { align-items: flex-start; flex-direction: column; }
       .card-form-grid { grid-template-columns: 1fr; }
+      .landing-sub { font-size: 0.9rem; }
     }
   </style>
 </head>
 <body>
+  <div id="landingScreen" class="landing-screen" aria-live="polite" aria-label="Welkom bij Bright Bird">
+    <div class="landing-content">
+      <img class="landing-logo" src="brightbird-logo.svg" alt="Bright Bird logo" />
+      <h1 class="landing-title">Welkom bij Bright Bird</h1>
+      <p class="landing-sub">Klik ergens om verder te gaan naar de kaartcollectie.</p>
+    </div>
+  </div>
+
   <header class="topbar">
     <div class="page nav">
       <div class="brand">
@@ -545,8 +605,23 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     (() => {
+      const landingScreen = document.getElementById('landingScreen');
+      const hideLanding = () => {
+        landingScreen.classList.add('hidden');
+      };
+
+      landingScreen.addEventListener('click', hideLanding);
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          if (!landingScreen.classList.contains('hidden')) {
+            event.preventDefault();
+            hideLanding();
+          }
+        }
+      });
+
       const SUPABASE_URL = "https://zshiboydolzozgoivyui.supabase.co";
-      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaGlib3lkb2x6b3pnb2l2eXVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4MjA5NzksImV4cCI6MjEwOTM5Njk3OX0.0fSYlmLLM_E6wuQS3Vu6gI4IOji-7mY0EAapkKT-bEg";
+      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpzaGlib3lkb2x6b3pnb2l2eXVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM4MjA5NzksImV4cCI6MjEwOTM5Njk3O[... ]";
       const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
       let cards = [];
