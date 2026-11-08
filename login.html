@@ -3,71 +3,134 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#f6f4ec" />
+  <meta name="theme-color" content="#102c3b" />
   <title>Welkom bij Bright Bird</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    :root { --ink: #17364b; --muted: #71818b; --blue: #138bce; --gold: #f2c84b; }
+    :root {
+      color-scheme: light;
+      --navy: #102c3b;
+      --navy-light: #183e50;
+      --gold: #d6b66e;
+      --gold-light: #f1dfb1;
+      --ink: #1c3440;
+      --muted: #78868d;
+      --line: #e5e9e8;
+      --teal: #287c85;
+    }
     * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 28px 18px; color: var(--ink); font-family: Inter, sans-serif; background: #f6f4ec; }
-    .backdrop { position: fixed; inset: 0; overflow: hidden; z-index: -1; background: radial-gradient(ellipse at 12% 18%, #d9edf0 0, transparent 34%), radial-gradient(ellipse at 91% 82%, #f6e8c7 0, transparent 32%), #f6f4ec; }
-    .shape { position: absolute; border-radius: 50%; filter: blur(1px); opacity: .8; }
-    .shape-a { width: 340px; height: 340px; top: -160px; right: 12%; background: #e7dff5; }
-    .shape-b { width: 260px; height: 260px; bottom: -120px; left: 8%; background: #d7eadb; }
-    .shape-c { width: 110px; height: 110px; top: 24%; left: 14%; background: #f6df9d; opacity: .55; }
-    .login { width: min(100%, 430px); padding: 38px; border: 1px solid rgba(255,255,255,.9); border-radius: 26px; background: rgba(255,255,255,.88); box-shadow: 0 24px 75px rgba(34,57,64,.11); backdrop-filter: blur(12px); }
-    .logo { display: block; width: 106px; height: 106px; margin: 0 auto 15px; padding: 8px; border-radius: 28px; object-fit: contain; background: #fff; box-shadow: 0 7px 22px rgba(24,73,92,.1); }
-    h1 { margin: 0 0 26px; text-align: center; font: 800 2.2rem/1.05 'Baloo 2', cursive; letter-spacing: -.04em; color: #1c5577; }
-    label { display: block; margin: 0 0 7px; font-size: .85rem; font-weight: 700; }
-    .field { margin-bottom: 17px; }
-    input { width: 100%; height: 48px; padding: 0 13px; border: 1px solid #dfe7e8; border-radius: 11px; outline: none; background: #fff; color: var(--ink); font: inherit; }
-    input:focus { border-color: #69b5dc; box-shadow: 0 0 0 3px rgba(19,139,206,.12); }
-    .password { position: relative; }
-    .password input { padding-right: 75px; }
-    .toggle { position: absolute; top: 50%; right: 11px; transform: translateY(-50%); border: 0; background: transparent; color: var(--blue); cursor: pointer; font-weight: 700; }
-    .submit { width: 100%; min-height: 49px; margin-top: 5px; border: 0; border-radius: 11px; background: var(--blue); color: #fff; cursor: pointer; font: 700 1rem Inter, sans-serif; transition: background .2s, transform .2s; }
-    .submit:hover { background: #0876b4; transform: translateY(-1px); }
-    .submit:disabled { opacity: .65; cursor: wait; }
-    .message { display: none; margin-top: 14px; padding: 11px 13px; border-radius: 10px; font-size: .85rem; }
-    .message.error { display: block; color: #973a32; background: #fff0ed; }
-    .message.success { display: block; color: #176844; background: #edfbf3; }
-    .back { display: block; margin-top: 20px; color: var(--muted); text-align: center; font-size: .85rem; text-decoration: none; }
-    .back:hover { color: var(--blue); }
-    @media (max-width: 480px) { .login { padding: 30px 23px; } h1 { font-size: 2rem; } }
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 32px 20px;
+      color: var(--ink);
+      background: #f4f2ec;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .backdrop {
+      position: fixed;
+      z-index: -1;
+      inset: 0;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 10% 12%, rgba(196, 218, 210, .68), transparent 34%),
+        radial-gradient(ellipse at 91% 87%, rgba(232, 214, 174, .52), transparent 33%),
+        #f4f2ec;
+    }
+    .orb { position: absolute; border-radius: 50%; pointer-events: none; }
+    .orb-one { width: 420px; height: 420px; top: -245px; right: 9%; border: 1px solid rgba(40, 124, 133, .13); box-shadow: 0 0 0 34px rgba(40,124,133,.035), 0 0 0 70px rgba(40,124,133,.025); }
+    .orb-two { width: 360px; height: 360px; left: -230px; bottom: -180px; background: rgba(214,182,110,.12); }
+    .login-shell { width: min(100%, 462px); padding: 1px; border-radius: 27px; background: linear-gradient(145deg, rgba(214,182,110,.78), rgba(255,255,255,.92) 35%, rgba(40,124,133,.3)); box-shadow: 0 28px 80px rgba(22,48,57,.16), 0 4px 14px rgba(22,48,57,.05); }
+    .login { position: relative; overflow: hidden; padding: 42px 44px 34px; border: 1px solid rgba(255,255,255,.8); border-radius: 26px; background: rgba(255,255,255,.96); }
+    .login::before { content: ''; position: absolute; top: 0; left: 12%; right: 12%; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    .logo-wrap { width: 104px; height: 104px; display: grid; place-items: center; margin: 0 auto 21px; border: 1px solid rgba(214,182,110,.65); border-radius: 50%; background: linear-gradient(145deg, #fff, #f8f6ef); box-shadow: 0 0 0 7px rgba(214,182,110,.11), 0 12px 27px rgba(19,53,66,.09); }
+    .logo { width: 77px; height: 77px; object-fit: contain; }
+    h1 { margin: 0 0 7px; color: var(--navy); text-align: center; font: 800 clamp(1.75rem, 5vw, 2.15rem)/1.16 Manrope, sans-serif; letter-spacing: -.055em; }
+    .subtitle { margin: 0 0 29px; color: var(--muted); text-align: center; font-size: .91rem; line-height: 1.55; }
+    .field { margin-bottom: 18px; }
+    .field label { display: block; margin: 0 0 8px 2px; color: #314955; font-size: .82rem; font-weight: 700; }
+    .input-wrap { position: relative; }
+    .input-wrap input { width: 100%; height: 51px; padding: 0 14px; border: 1px solid var(--line); border-radius: 11px; outline: none; background: #fcfdfc; color: var(--ink); font: 500 .9rem 'DM Sans', sans-serif; transition: border-color .2s, box-shadow .2s, background .2s; }
+    .input-wrap input::placeholder { color: #a4afb2; }
+    .input-wrap input:focus { border-color: #83b3b0; background: #fff; box-shadow: 0 0 0 4px rgba(40,124,133,.1); }
+    .password-input { padding-right: 77px !important; }
+    .toggle { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); padding: 5px 2px; border: 0; background: transparent; color: var(--teal); cursor: pointer; font: 700 .76rem 'DM Sans', sans-serif; }
+    .form-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 1px 1px 22px; font-size: .76rem; }
+    .remember { display: inline-flex; align-items: center; gap: 7px; color: #697a80; }
+    .remember input { width: 15px; height: 15px; margin: 0; accent-color: var(--teal); }
+    .help-link { color: var(--teal); font-weight: 700; text-decoration: none; }
+    .help-link:hover { text-decoration: underline; }
+    .submit { width: 100%; min-height: 51px; display: flex; align-items: center; justify-content: center; gap: 9px; border: 1px solid rgba(241,223,177,.48); border-radius: 11px; background: linear-gradient(110deg, #173b4c, #102c3b 70%); box-shadow: 0 7px 16px rgba(16,44,59,.18); color: #fff; cursor: pointer; font: 700 .95rem 'DM Sans', sans-serif; transition: transform .18s, box-shadow .18s, background .18s; }
+    .submit:hover { transform: translateY(-1px); background: linear-gradient(110deg, #1d4b5c, #153748 70%); box-shadow: 0 10px 20px rgba(16,44,59,.22); }
+    .submit:active { transform: translateY(0); }
+    .submit:disabled { opacity: .68; cursor: wait; }
+    .submit .arrow { color: var(--gold-light); font-size: 1.1rem; }
+    .message { display: none; margin-top: 15px; padding: 11px 13px; border-radius: 10px; font-size: .83rem; line-height: 1.45; }
+    .message.error { display: block; border: 1px solid #f1d0ca; background: #fff4f1; color: #973a32; }
+    .message.success { display: block; border: 1px solid #cce8d6; background: #f0faf4; color: #176844; }
+    .divider { height: 1px; margin: 27px 0 17px; background: linear-gradient(90deg, transparent, #e8e8e1 18%, #e8e8e1 82%, transparent); }
+    .secure { display: flex; justify-content: center; align-items: center; gap: 7px; color: #929d9e; font-size: .72rem; }
+    .secure-mark { width: 17px; height: 17px; display: grid; place-items: center; border: 1px solid rgba(40,124,133,.22); border-radius: 50%; color: var(--teal); font-size: .62rem; }
+    .back { display: block; width: fit-content; margin: 21px auto 0; color: #718087; font-size: .8rem; font-weight: 600; text-align: center; text-decoration: none; transition: color .2s; }
+    .back:hover { color: var(--teal); }
+    @media (max-width: 500px) { body { padding: 20px 15px; } .login { padding: 35px 25px 28px; } .logo-wrap { width: 92px; height: 92px; } .logo { width: 68px; height: 68px; } .subtitle { margin-bottom: 25px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
 </head>
 <body>
-  <div class="backdrop" aria-hidden="true"><div class="shape shape-a"></div><div class="shape shape-b"></div><div class="shape shape-c"></div></div>
-  <main class="login">
-    <img class="logo" src="brightbird-logo.svg" alt="Bright Bird-logo" />
-    <h1>Welkom bij Bright Bird</h1>
-    <form id="loginForm">
-      <div class="field"><label for="email">E-mailadres</label><input id="email" type="email" autocomplete="username" placeholder="jij@voorbeeld.nl" required /></div>
-      <div class="field"><label for="password">Wachtwoord</label><div class="password"><input id="password" type="password" autocomplete="current-password" placeholder="Vul je wachtwoord in" required /><button class="toggle" id="togglePassword" type="button">Tonen</button></div></div>
-      <button class="submit" id="submitButton" type="submit">Inloggen</button>
-      <div class="message" id="message" role="status" aria-live="polite"></div>
-    </form>
-    <a class="back" href="index.html">← Terug naar de kaartencollectie</a>
+  <div class="backdrop" aria-hidden="true"><div class="orb orb-one"></div><div class="orb orb-two"></div></div>
+  <main class="login-shell">
+    <section class="login" aria-labelledby="loginTitle">
+      <div class="logo-wrap"><img class="logo" src="brightbird-logo.svg" alt="Bright Bird-logo" /></div>
+      <h1 id="loginTitle">Welkom bij Bright Bird</h1>
+      <p class="subtitle">Log in om verder te gaan naar je account.</p>
+      <form id="loginForm">
+        <div class="field">
+          <label for="email">E-mailadres</label>
+          <div class="input-wrap"><input id="email" name="email" type="email" autocomplete="username" placeholder="jij@voorbeeld.nl" required /></div>
+        </div>
+        <div class="field">
+          <label for="password">Wachtwoord</label>
+          <div class="input-wrap"><input class="password-input" id="password" name="password" type="password" autocomplete="current-password" placeholder="Vul je wachtwoord in" required /><button class="toggle" id="togglePassword" type="button" aria-label="Wachtwoord tonen">Tonen</button></div>
+        </div>
+        <div class="form-row">
+          <label class="remember"><input id="remember" type="checkbox" checked /> Ingelogd blijven</label>
+          <a class="help-link" href="mailto:info@brightbird.nl?subject=Wachtwoord%20vergeten">Wachtwoord vergeten?</a>
+        </div>
+        <button class="submit" id="submitButton" type="submit"><span class="button-label">Inloggen</span><span class="arrow" aria-hidden="true">→</span></button>
+        <div class="message" id="message" role="status" aria-live="polite"></div>
+      </form>
+      <div class="divider"></div>
+      <div class="secure"><span class="secure-mark" aria-hidden="true">✓</span> Veilige toegang tot Bright Bird</div>
+      <a class="back" href="index.html">← Terug naar de kaartencollectie</a>
+    </section>
   </main>
   <script>
     (() => {
       const form = document.getElementById('loginForm');
       const password = document.getElementById('password');
       const button = document.getElementById('submitButton');
+      const buttonLabel = button.querySelector('.button-label');
       const message = document.getElementById('message');
       let client;
+
       document.getElementById('togglePassword').addEventListener('click', (event) => {
         const showing = password.type === 'text';
         password.type = showing ? 'password' : 'text';
         event.currentTarget.textContent = showing ? 'Tonen' : 'Verbergen';
+        event.currentTarget.setAttribute('aria-label', showing ? 'Wachtwoord tonen' : 'Wachtwoord verbergen');
       });
+
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         button.disabled = true;
-        button.textContent = 'Bezig met inloggen…';
+        buttonLabel.textContent = 'Bezig met inloggen…';
         message.className = 'message';
         try {
           if (!client) {
@@ -82,14 +145,15 @@
           }
           const { error } = await client.auth.signInWithPassword({ email: document.getElementById('email').value.trim(), password: password.value });
           if (error) throw error;
-          message.textContent = 'Inloggen gelukt!';
+          message.textContent = 'Inloggen gelukt! Je wordt doorgestuurd…';
           message.className = 'message success';
-          window.setTimeout(() => { window.location.href = 'index.html'; }, 600);
+          window.setTimeout(() => { window.location.href = 'index.html'; }, 700);
         } catch (error) {
+          console.error('Inloggen mislukt:', error);
           message.textContent = error.message === 'Invalid login credentials' ? 'Dit e-mailadres en wachtwoord komen niet overeen.' : (error.message || 'Inloggen is niet gelukt. Probeer het opnieuw.');
           message.className = 'message error';
           button.disabled = false;
-          button.textContent = 'Inloggen';
+          buttonLabel.textContent = 'Inloggen';
         }
       });
     })();
